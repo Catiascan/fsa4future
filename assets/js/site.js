@@ -11,9 +11,9 @@
   var CONFIG = {
     // PROVISÓRIO (QA-019, 06/10/2026): contatos da FSA até a FSA⁴Future ter número e atendimento@ próprios.
     email: 'catia@fsasolucoes.com.br',
-    whatsapp: '5512996760183',          // somente dígitos com DDI (WhatsApp Business da FSA4Future, 12/10/2026)
-    telefone: '',          // sem telefone: o número é só WhatsApp (decisão 12/10/2026)
-    telefoneLabel: '',
+    whatsapp: '551233519958',          // somente dígitos com DDI (FSA 57, provisório — voltou a 12/10/2026: o (12) 99676-0183 não funcionou no WhatsApp Web)
+    telefone: '+551233519958',
+    telefoneLabel: '(12) 3351-9958',
     calendly: 'https://calendly.com/catiascan/primeiro-atendimento-gratuito-fsa-future',
     formEndpoint: 'https://formsubmit.co/ajax/catia@fsasolucoes.com.br',        // POST JSON opcional (ex.: Apps Script/Formspree) com cópia para atendimento@
     consentVersion: '1.0'
