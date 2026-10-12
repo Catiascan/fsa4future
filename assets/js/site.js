@@ -178,6 +178,26 @@
   var IDEA_SIGNAL = /ideia|criar (um |uma )?(app|aplicativ|plataforma|sistema|site|produto)|startup|\bmvp\b|do zero|ainda n[aã]o existe|s[oó] uma ideia|n[aã]o tem opera/i;
   var CAP_GUARD = /(vcs|voc[eê]s|a fsa) (fazem|criam|desenvolvem|constroem|trabalham com)|fazem (isso|app|aplicativ|sistema|site|plataforma)|se (vcs|voc[eê]s) fazem/i;
   var CAP_ANSWER = 'Sim. A FSA desenvolve sistemas, aplicativos, integrações e soluções com IA, do zero ou a partir do que já existe. Para uma ideia nova, o caminho costuma começar por uma versão mínima (MVP), para testar com quem vai usar antes de investir no produto completo.';
+  var ABOUT_TEXT = 'A FSA⁴Future é um Technology & Business Hub. Combinamos experiência, proximidade e diferentes capacidades tecnológicas para entender, desenhar e construir soluções para desafios reais de negócio. São mais de 20 anos em consultoria e tecnologia, antes como FSA Soluções em Tecnologia, da descoberta à execução, com NPS 70. A nossa promessa: você traz o desafio; a gente encontra, conecta ou constrói a tecnologia para resolvê-lo.';
+  var WHO_TEXT = 'Atendemos empresas com um desafio real de negócio, de pequenas a grandes. Muitos clientes são empresas em operação que não têm um time de tecnologia próprio: indústria, distribuição, clínicas, escritórios de serviços e comércio. Quem decide costuma ser o dono ou um diretor, e por isso a gente explica tudo sem jargão. O que importa é o problema, não o tamanho.';
+  var PILLARS_TEXT = 'O que guia a gente: proximidade (você acompanha e decide junto), tecnologia sem dogma (IA, automação, dados e integrações são meios, não fins), capacidade de construir (a gente não para no diagnóstico) e experiência para enxergar riscos e oportunidades que não aparecem no pedido. Nada sobre o cliente sem o cliente.';
+  var KNOW = [
+    [/^(oi|ol[aá]|bom dia|boa tarde|boa noite|e a[ií])\b[!.,\s]*$/i, 'Olá! Que bom ter você por aqui.', 'menu'],
+    [/quem (s[aã]o|[eé]) (voc[eê]s|a fsa)|o que [eé] a fsa|sobre (a fsa|voc[eê]s|a empresa)|conhecer a fsa|hist[oó]ria|h[aá] quanto tempo|experi[eê]ncia de voc/i, 'ABOUT', 'about'],
+    [/(que|quais) (tipo|tipos) de (empresa|cliente)|para quem|quem (voc[eê]s )?atendem|atendem (empresa|pequen|grande|m[eé]di|cl[ií]nica|ind[uú]stria|com[eé]rcio)|porte|segmento|setor|nicho/i, 'WHO', 'after'],
+    [/o que (voc[eê]s|a fsa) (fazem|faz|oferece)|quais (s[aã]o os )?servi[cç]os|servi[cç]os de voc|solu[cç][oõ]es de voc|com o que trabalham/i, null, 'solutions'],
+    [/como (voc[eê]s )?trabalham|m[eé]todo|metodologia|como funciona o (trabalho|processo)|etapas/i, null, 'metodo'],
+    [/valores|princ[ií]pios|pilares|diferencial|por que (a fsa|voc[eê]s)|o que (te|os) diferencia/i, 'PILLARS', 'after'],
+    [/preciso saber (qual|que) tecnologia|n[aã]o entendo de tecnologia|n[aã]o sou t[eé]cnic/i, 'Não precisa. Essa parte a gente descobre junto. Você traz o problema; a escolha da tecnologia é com o time, explicada sem jargão.', 'after'],
+    [/s[oó] (fazem )?(projeto )?do zero|j[aá] tenho (um )?sistema|integrar com o que (eu )?j[aá] tenho|aproveitar o que (eu )?j[aá] tenho/i, 'Não fazemos só do zero. Às vezes a melhor resposta já existe e só precisa ser conectada, integrada ou melhorada. A gente olha primeiro o que você já tem.', 'after'],
+    [/\bcases?\b|portf[oó]lio|clientes de voc|quem j[aá] atenderam|exemplos? de projeto/i, 'Os cases da FSA estão em autorização com os clientes e vão ser publicados com a história completa e resultados comprováveis. Na conversa gratuita, o time pode contar experiências parecidas com a sua.', 'after'],
+    [/como (é|funciona) a (primeira )?conversa|conversa de entendimento|reuni[aã]o inicial/i, 'É a Conversa de Entendimento FSA: 30 minutos, gratuita, por Google Meet. Um primeiro encontro para ouvir seu contexto, entender o desafio e identificar juntos qual pode ser o próximo passo. Não precisa chegar com a solução definida.', 'handoff'],
+    [/reclama|insatisfeit|p[eé]ssimo atendimento|n[aã]o (est[aá]|ficou) funcionando|problema com (o|a) (sistema|entrega|servi[cç]o) de voc|sou cliente/i, 'Sinto muito pelo transtorno. Vou te conectar com o time agora, com prioridade.', 'handoff'],
+    [/impressora|formatar|conserto|consertar (o |meu )?(pc|computador|celular|notebook)|wi-?fi|internet (caiu|lenta)|v[ií]rus no/i, 'Esse não é um serviço da FSA. Se fizer parte de um desafio maior de tecnologia na sua empresa, posso te conectar com o time.', 'after'],
+    [/quanto (eu )?ganho|comiss[aã]o|percentual (de|do) parceiro/i, 'Os percentuais estão no contrato de adesão, que você vê na página de adesão do Programa de Parceiros. O valor de cada indicação é definido quando o cliente fecha.', 'parceiro'],
+    [/porra|caralho|merda|idiota|lixo|burra|in[uú]til/i, 'Entendo que você esteja chateado. Posso te conectar com uma pessoa do time.', 'handoff'],
+    [/obrigad|valeu|agrade[cç]o|tchau|at[eé] mais/i, 'Eu que agradeço! Se precisar, é só chamar.', 'end']
+  ];
   var PRICE_GUARD = /pre[cç]o|quanto custa|or[cç]amento|valor[- ]hora|cobram|investimento|tabela de valores|quanto (fica|sai)/i;
   var TIME_GUARD = /prazo|quanto tempo|quando fica pronto|em quantos dias|entrega em/i;
   var GUARDS = [
@@ -232,6 +252,7 @@
       say('Por onde começamos?', [
         { label: 'Tenho um desafio', run: startChallenge },
         { label: 'Quero conhecer as soluções', run: solutions },
+        { label: 'Quem é a FSA⁴Future?', run: about },
         { label: 'Quero falar com alguém', run: handoff },
         { label: 'Ainda não sei por onde começar', run: function () { say('Tudo bem. Não precisa saber qual tecnologia usar. Essa parte a gente descobre junto.'); startChallenge(); } }
       ]);
@@ -275,6 +296,41 @@
         say('Obrigada. O time vai entender melhor na conversa. O próximo passo é uma conversa de 30 minutos, gratuita.');
       }
       handoff();
+    }
+    function about() {
+      state.mode = 'menu';
+      var a = el('a', { href: ROOT + 'sobre/', text: ' Ver a página Sobre.' });
+      say(ABOUT_TEXT, null, a);
+      say('Quer saber mais?', [
+        { label: 'Para quem vocês trabalham?', run: function () { say(WHO_TEXT); afterAnswer(); } },
+        { label: 'O que vocês fazem?', run: solutions },
+        { label: 'Tenho um desafio', run: startChallenge }
+      ]);
+    }
+    function afterAnswer() {
+      say('Posso ajudar em mais alguma coisa?', [
+        { label: 'Tenho um desafio', run: startChallenge },
+        { label: 'Quem é a FSA⁴Future?', run: about },
+        { label: 'Quero falar com alguém', run: handoff }
+      ]);
+    }
+    function partnerInfo() {
+      var a = el('a', { href: ROOT + 'hub/fsa-4-partners/adesao/', text: ' Ir para a adesão.' });
+      say('Empresas com CNPJ ativo que atendem outras empresas (agências, contabilidades, consultorias, integradores, mentores e assessorias) podem indicar quem precisa de tecnologia. A FSA conduz a conversa, o escopo e a proposta. Com o contrato fechado e pago, o parceiro recebe comissão sobre o valor líquido recebido.', null, a);
+      afterAnswer();
+    }
+    function knowledge(text) {
+      for (var k = 0; k < KNOW.length; k++) {
+        if (!KNOW[k][0].test(text)) continue;
+        var ans = KNOW[k][1] === 'ABOUT' ? null : KNOW[k][1] === 'WHO' ? WHO_TEXT : KNOW[k][1] === 'PILLARS' ? PILLARS_TEXT : KNOW[k][1];
+        var nx = KNOW[k][2];
+        if (nx === 'about') { about(); return true; }
+        if (ans) say(ans);
+        if (nx === 'menu') menu(); else if (nx === 'solutions') solutions(); else if (nx === 'metodo') method();
+        else if (nx === 'handoff') handoff(); else if (nx === 'parceiro') partnerInfo(); else if (nx === 'after') afterAnswer();
+        return true;
+      }
+      return false;
     }
     function solutions() {
       state.mode = 'menu';
@@ -349,6 +405,14 @@
         if (GUARDS[3][0].test(text)) { say(GUARDS[3][1]); return ask(); }
         if (GUARDS[6][0].test(text)) { say(GUARDS[6][1]); return menu(); }
         if (GUARDS[GUARDS.length - 1][0].test(text)) return handoff();
+        if (/\?\s*$/.test(text) && !PRICE_GUARD.test(text) && !TIME_GUARD.test(text) && !CAP_GUARD.test(text)) {
+          for (var kk = 0; kk < KNOW.length; kk++) {
+            if (KNOW[kk][0].test(text) && ['after', 'menu'].indexOf(KNOW[kk][2]) >= 0 && KNOW[kk][1]) {
+              var a0 = KNOW[kk][1] === 'WHO' ? WHO_TEXT : KNOW[kk][1] === 'PILLARS' ? PILLARS_TEXT : KNOW[kk][1];
+              say(a0); return ask();
+            }
+          }
+        }
         if (state.q === 0 && IDEA_SIGNAL.test(text)) state.path = 'ideia';
         state.ctx.respostas.push([qLabels()[state.q], text.slice(0, 600)]); save();
         if (CAP_GUARD.test(text)) say(CAP_ANSWER);
@@ -361,6 +425,7 @@
         if (TIME_GUARD.test(text)) return pauseWith('O prazo sai do escopo. Na conversa gratuita o time avalia isso com você.');
         return nextQ();
       }
+      if (knowledge(text)) return;
       if (CAP_GUARD.test(text)) {
         say(CAP_ANSWER);
         return say('Quer me contar a sua ideia ou o seu desafio?', [{ label: 'Tenho um desafio', run: startChallenge }, { label: 'Quero falar com alguém', run: handoff }]);
