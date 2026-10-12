@@ -177,7 +177,7 @@
   var IDEA_LABELS = ['Ideia:', 'Para quem:', 'O que precisa fazer:', 'O que já existe:', 'Data ou meta:'];
   var IDEA_SIGNAL = /ideia|criar (um |uma )?(app|aplicativ|plataforma|sistema|site|produto)|startup|\bmvp\b|do zero|ainda n[aã]o existe|s[oó] uma ideia|n[aã]o tem opera/i;
   var CAP_GUARD = /(vcs|voc[eê]s|a fsa) (fazem|criam|desenvolvem|constroem|trabalham com)|fazem (isso|app|aplicativ|sistema|site|plataforma)|se (vcs|voc[eê]s) fazem/i;
-  var CAP_ANSWER = 'Sim. A FSA desenvolve sistemas, aplicativos, integrações e soluções com IA, do zero ou a partir do que já existe. Para uma ideia nova, o caminho costuma começar por uma versão mínima (MVP), para testar com quem vai usar antes de investir no produto completo.';
+  var CAP_ANSWER = 'Sim. A FSA⁴Future desenvolve sistemas, aplicativos, integrações e soluções com IA, do zero ou a partir do que já existe. Para uma ideia nova, o caminho costuma começar por uma versão mínima (MVP), para testar com quem vai usar antes de investir no produto completo.';
   var ABOUT_TEXT = 'A FSA⁴Future é um Technology & Business Hub. Combinamos experiência, proximidade e diferentes capacidades tecnológicas para entender, desenhar e construir soluções para desafios reais de negócio. São mais de 20 anos em consultoria e tecnologia, antes como FSA Soluções em Tecnologia, da descoberta à execução, com NPS 70. A nossa promessa: você traz o desafio; a gente encontra, conecta ou constrói a tecnologia para resolvê-lo.';
   var WHO_TEXT = 'Atendemos empresas com um desafio real de negócio, de pequenas a grandes. Muitos clientes são empresas em operação que não têm um time de tecnologia próprio: indústria, distribuição, clínicas, escritórios de serviços e comércio. Quem decide costuma ser o dono ou um diretor, e por isso a gente explica tudo sem jargão. O que importa é o problema, não o tamanho.';
   var PILLARS_TEXT = 'O que guia a gente: proximidade (você acompanha e decide junto), tecnologia sem dogma (IA, automação, dados e integrações são meios, não fins), capacidade de construir (a gente não para no diagnóstico) e experiência para enxergar riscos e oportunidades que não aparecem no pedido. Nada sobre o cliente sem o cliente.';
@@ -190,10 +190,10 @@
     [/valores|princ[ií]pios|pilares|diferencial|por que (a fsa|voc[eê]s)|o que (te|os) diferencia/i, 'PILLARS', 'after'],
     [/preciso saber (qual|que) tecnologia|n[aã]o entendo de tecnologia|n[aã]o sou t[eé]cnic/i, 'Não precisa. Essa parte a gente descobre junto. Você traz o problema; a escolha da tecnologia é com o time, explicada sem jargão.', 'after'],
     [/s[oó] (fazem )?(projeto )?do zero|j[aá] tenho (um )?sistema|integrar com o que (eu )?j[aá] tenho|aproveitar o que (eu )?j[aá] tenho/i, 'Não fazemos só do zero. Às vezes a melhor resposta já existe e só precisa ser conectada, integrada ou melhorada. A gente olha primeiro o que você já tem.', 'after'],
-    [/\bcases?\b|portf[oó]lio|clientes de voc|quem j[aá] atenderam|exemplos? de projeto/i, 'Os cases da FSA estão em autorização com os clientes e vão ser publicados com a história completa e resultados comprováveis. Na conversa gratuita, o time pode contar experiências parecidas com a sua.', 'after'],
-    [/como (é|funciona) a (primeira )?conversa|conversa de entendimento|reuni[aã]o inicial/i, 'É a Conversa de Entendimento FSA: 30 minutos, gratuita, por Google Meet. Um primeiro encontro para ouvir seu contexto, entender o desafio e identificar juntos qual pode ser o próximo passo. Não precisa chegar com a solução definida.', 'handoff'],
+    [/\bcases?\b|portf[oó]lio|clientes de voc|quem j[aá] atenderam|exemplos? de projeto/i, 'Os cases da FSA⁴Future estão em autorização com os clientes e vão ser publicados com a história completa e resultados comprováveis. Na conversa gratuita, o time pode contar experiências parecidas com a sua.', 'after'],
+    [/como (é|funciona) a (primeira )?conversa|conversa de entendimento|reuni[aã]o inicial/i, 'É a Conversa de Entendimento FSA⁴Future: 30 minutos, gratuita, por Google Meet. Um primeiro encontro para ouvir seu contexto, entender o desafio e identificar juntos qual pode ser o próximo passo. Não precisa chegar com a solução definida.', 'handoff'],
     [/reclama|insatisfeit|p[eé]ssimo atendimento|n[aã]o (est[aá]|ficou) funcionando|problema com (o|a) (sistema|entrega|servi[cç]o) de voc|sou cliente/i, 'Sinto muito pelo transtorno. Vou te conectar com o time agora, com prioridade.', 'handoff'],
-    [/impressora|formatar|conserto|consertar (o |meu )?(pc|computador|celular|notebook)|wi-?fi|internet (caiu|lenta)|v[ií]rus no/i, 'Esse não é um serviço da FSA. Se fizer parte de um desafio maior de tecnologia na sua empresa, posso te conectar com o time.', 'after'],
+    [/impressora|formatar|conserto|consertar (o |meu )?(pc|computador|celular|notebook)|wi-?fi|internet (caiu|lenta)|v[ií]rus no/i, 'Esse não é um serviço da FSA⁴Future. Se fizer parte de um desafio maior de tecnologia na sua empresa, posso te conectar com o time.', 'after'],
     [/quanto (eu )?ganho|comiss[aã]o|percentual (de|do) parceiro/i, 'Os percentuais estão no contrato de adesão, que você vê na página de adesão do Programa de Parceiros. O valor de cada indicação é definido quando o cliente fecha.', 'parceiro'],
     [/porra|caralho|merda|idiota|lixo|burra|in[uú]til/i, 'Entendo que você esteja chateado. Posso te conectar com uma pessoa do time.', 'handoff'],
     [/obrigad|valeu|agrade[cç]o|tchau|at[eé] mais/i, 'Eu que agradeço! Se precisar, é só chamar.', 'end']
@@ -203,16 +203,16 @@
   var GUARDS = [
     [/pre[cç]o|quanto custa|or[cç]amento|valor[- ]hora|cobram|investimento|tabela de valores/i, 'O valor depende do desafio e do escopo, que a gente define junto numa conversa. Essa primeira conversa é gratuita. Quer agendar?', 'handoff'],
     [/prazo|quanto tempo|quando fica pronto|em quantos dias|entrega em/i, 'O prazo sai do escopo. Na Conversa de Entendimento o time avalia isso com você.', 'handoff'],
-    [/d[aá] (pra|para) fazer|[eé] poss[ií]vel|[eé] vi[aá]vel|viabilidade|conseguem fazer/i, 'Parece um desafio que a FSA costuma olhar de perto. Quem confirma é o time, depois de entender o contexto.', 'handoff'],
+    [/d[aá] (pra|para) fazer|[eé] poss[ií]vel|[eé] vi[aá]vel|viabilidade|conseguem fazer/i, 'Parece um desafio que a FSA⁴Future costuma olhar de perto. Quem confirma é o time, depois de entender o contexto.', 'handoff'],
     [/\bcpf\b|\brg\b|senha|cart[aã]o de cr[eé]dito|conta banc[aá]ria|\bpix\b|dado(s)? de sa[uú]de/i, 'Não preciso desse dado. Por segurança, não envie por aqui.', null],
     [/vaga|curr[ií]culo|trabalhar (na|com a) fsa|emprego/i, 'Envie seu currículo para ' + CONFIG.email + ' com o assunto "Vagas".', null],
-    [/voc[eê] [eé] (humana|uma pessoa|rob[oô]|real)|falo com (um )?rob/i, 'Sou a assistente digital da FSA. Posso te conectar com uma pessoa do time quando quiser.', 'handoff'],
+    [/voc[eê] [eé] (humana|uma pessoa|rob[oô]|real)|falo com (um )?rob/i, 'Sou a assistente digital da FSA⁴Future. Posso te conectar com uma pessoa do time quando quiser.', 'handoff'],
     [/ignore|esque[cç]a (as|suas) (regras|instru)|prompt|system/i, 'Vamos voltar ao começo.', 'menu'],
     [/(voc[eê]s )?(fazem|trabalham com|usam) (ia|intelig)/i, 'Sim, quando IA é a resposta certa para o problema. Às vezes a resposta é automação, integração ou dados. Muitas vezes é uma combinação.', null],
-    [/concorr|melhor que|compar/i, 'Não comento outras empresas. Posso te contar como a FSA trabalha.', 'metodo'],
+    [/concorr|melhor que|compar/i, 'Não comento outras empresas. Posso te contar como a FSA⁴Future trabalha.', 'metodo'],
     [/apagar (meus )?dados|excluir (meus )?dados|lgpd|privacidade/i, 'Registrei seu pedido. Para tratar dados pessoais, escreva para ' + CONFIG.email + ' com o assunto "Privacidade".', null],
     [/onde fica|endere[cç]o/i, 'O atendimento é remoto ou presencial, a combinar com o time.', 'handoff'],
-    [/primeira conversa|tem custo|[eé] gr[aá]tis|gratuit/i, 'A Conversa de Entendimento FSA tem 30 minutos e é gratuita: um primeiro encontro para ouvir seu contexto, entender o desafio e identificar juntos qual pode ser o próximo passo.', 'handoff'],
+    [/primeira conversa|tem custo|[eé] gr[aá]tis|gratuit/i, 'A Conversa de Entendimento FSA⁴Future tem 30 minutos e é gratuita: um primeiro encontro para ouvir seu contexto, entender o desafio e identificar juntos qual pode ser o próximo passo.', 'handoff'],
     [/falar com (algu[eé]m|uma pessoa|humano|atendente)|atendimento humano|quero falar/i, null, 'handoff']
   ];
 
@@ -258,7 +258,7 @@
       ]);
     }
     function opening() {
-      say('Olá, eu sou a FSiA. Posso ajudar você a entender como a FSA pode apoiar seu desafio, apresentar nossas soluções ou conectar você com nosso time.');
+      say('Olá, eu sou a FSiA. Posso ajudar você a entender como a FSA⁴Future pode apoiar seu desafio, apresentar nossas soluções ou conectar você com nosso time.');
       menu();
     }
     function startChallenge() { state.mode = 'challenge'; state.q = 0; state.path = 'empresa'; state.priceAsks = 0; state.ctx.respostas = []; delete state.ctx.consentimento; delete state.ctx.enviado; delete state.ctx.frente; save(); ask(); }
@@ -316,7 +316,7 @@
     }
     function partnerInfo() {
       var a = el('a', { href: ROOT + 'hub/fsa-4-partners/adesao/', text: ' Ir para a adesão.' });
-      say('Empresas com CNPJ ativo que atendem outras empresas (agências, contabilidades, consultorias, integradores, mentores e assessorias) podem indicar quem precisa de tecnologia. A FSA conduz a conversa, o escopo e a proposta. Com o contrato fechado e pago, o parceiro recebe comissão sobre o valor líquido recebido.', null, a);
+      say('Empresas com CNPJ ativo que atendem outras empresas (agências, contabilidades, consultorias, integradores, mentores e assessorias) podem indicar quem precisa de tecnologia. A FSA⁴Future conduz a conversa, o escopo e a proposta. Com o contrato fechado e pago, o parceiro recebe comissão sobre o valor líquido recebido.', null, a);
       afterAnswer();
     }
     function knowledge(text) {
@@ -348,7 +348,7 @@
     }
     function method() {
       var a = el('a', { href: ROOT + 'como-fazemos/', text: ' Ver as seis etapas.' });
-      say('A FSA trabalha em seis etapas: 01 Ouvir, 02 Entender, 03 Conectar, 04 Construir, 05 Validar e 06 Evoluir. Eu participo só do Ouvir; o Entender em diante é com o time.', null, a);
+      say('A FSA⁴Future trabalha em seis etapas: 01 Ouvir, 02 Entender, 03 Conectar, 04 Construir, 05 Validar e 06 Evoluir. Eu participo só do Ouvir; o Entender em diante é com o time.', null, a);
       say('Quer seguir?', [{ label: 'Tenho um desafio', run: startChallenge }, { label: 'Quero falar com alguém', run: handoff }]);
     }
     function handoff() {
@@ -364,7 +364,7 @@
     }
     function askIdentity() {
       state.mode = 'identity';
-      say('Seus dados são usados só para o time da FSA retornar sobre este atendimento (veja a Política de Privacidade). Como posso te chamar, e de qual empresa?', [{ label: 'Pular', run: channels }]);
+      say('Seus dados são usados só para o time da FSA⁴Future retornar sobre este atendimento (veja a Política de Privacidade). Como posso te chamar, e de qual empresa?', [{ label: 'Pular', run: channels }]);
       input.focus();
     }
     function sendSummary() {
