@@ -190,7 +190,8 @@
     [/valores|princ[ií]pios|pilares|diferencial|por que (a fsa|voc[eê]s)|o que (te|os) diferencia/i, 'PILLARS', 'after'],
     [/preciso saber (qual|que) tecnologia|n[aã]o entendo de tecnologia|n[aã]o sou t[eé]cnic/i, 'Não precisa. Essa parte a gente descobre junto. Você traz o problema; a escolha da tecnologia é com o time, explicada sem jargão.', 'after'],
     [/s[oó] (fazem )?(projeto )?do zero|j[aá] tenho (um )?sistema|integrar com o que (eu )?j[aá] tenho|aproveitar o que (eu )?j[aá] tenho/i, 'Não fazemos só do zero. Às vezes a melhor resposta já existe e só precisa ser conectada, integrada ou melhorada. A gente olha primeiro o que você já tem.', 'after'],
-    [/\bcases?\b|portf[oó]lio|clientes de voc|quem j[aá] atenderam|exemplos? de projeto/i, 'Os cases da FSA⁴Future estão em autorização com os clientes e vão ser publicados com a história completa e resultados comprováveis. Na conversa gratuita, o time pode contar experiências parecidas com a sua.', 'after'],
+    [/\bcases?\b|portf[oó]lio|clientes de voc|quem j[aá] atenderam|exemplos? de projeto/i, 'Os cases completos estão em autorização com os clientes, por isso não citamos nomes. Já entregamos, por exemplo: automação do envio de e-mails e de rotinas de cobrança, integrações com bancos e emissão de boletos, limpeza e organização de bases de dados antigas, relatórios gerenciais confiáveis, plataformas web e aplicativos, e sites institucionais. Em segmentos como cobrança e recuperação de crédito, contabilidade e serviços financeiros, saúde e serviços. Na conversa gratuita, o time conta experiências parecidas com a sua.', 'after'],
+    [/startup|founder|aceleradora|incubadora|mvp|demo day|edital/i, 'STARTUP', 'startup'],
     [/como (é|funciona) a (primeira )?conversa|conversa de entendimento|reuni[aã]o inicial/i, 'É a Conversa de Entendimento FSA⁴Future: 30 minutos, gratuita, por Google Meet. Um primeiro encontro para ouvir seu contexto, entender o desafio e identificar juntos qual pode ser o próximo passo. Não precisa chegar com a solução definida.', 'handoff'],
     [/reclama|insatisfeit|p[eé]ssimo atendimento|n[aã]o (est[aá]|ficou) funcionando|problema com (o|a) (sistema|entrega|servi[cç]o) de voc|sou cliente/i, 'Sinto muito pelo transtorno. Vou te conectar com o time agora, com prioridade.', 'handoff'],
     [/impressora|formatar|conserto|consertar (o |meu )?(pc|computador|celular|notebook)|wi-?fi|internet (caiu|lenta)|v[ií]rus no/i, 'Esse não é um serviço da FSA⁴Future. Se fizer parte de um desafio maior de tecnologia na sua empresa, posso te conectar com o time.', 'after'],
@@ -288,7 +289,13 @@
     }
     function finishChallenge() {
       var all = state.ctx.respostas.map(function (r) { return r[1]; }).join(' ');
-      var f = state.path === 'ideia' ? 'products' : suggestFront(all);
+      if (state.path === 'ideia') {
+        state.ctx.frente = 'FSA⁴Products · Startups'; state.ctx.desafio = state.ctx.respostas[0] ? state.ctx.respostas[0][1] : ''; save();
+        var sa = el('a', { href: ROOT + 'hub/fsa-4-products/startups/', text: ' Ver o caminho para startups.' });
+        say('Obrigada! A sua ideia conversa com o caminho da FSA⁴Future para startups: ideia clara, validação, protótipo, MVP e produto. O próximo passo é uma conversa de 30 minutos, gratuita, para entender onde você está.', null, sa);
+        return handoff();
+      }
+      var f = suggestFront(all);
       state.ctx.desafio = state.ctx.respostas[0] ? state.ctx.respostas[0][1] : '';
       if (f) {
         state.ctx.frente = FRONTS[f].name; save();
@@ -317,6 +324,11 @@
         { label: 'Quero falar com alguém', run: handoff }
       ]);
     }
+    function startupInfo() {
+      var a = el('a', { href: ROOT + 'hub/fsa-4-products/startups/', text: ' Ver o caminho para startups e contar sua ideia.' });
+      say('A FSA⁴Future acompanha startups da ideia ao MVP, em etapas: ideia clara, validação, protótipo, MVP e produto. Você entra na etapa em que está e investe na próxima só depois de ver a anterior funcionando.', null, a);
+      say('Quer me contar a sua ideia?', [{ label: 'Tenho uma ideia', run: function () { startChallenge(); state.path = 'ideia'; } }, { label: 'Quero falar com alguém', run: handoff }]);
+    }
     function partnerInfo() {
       var a = el('a', { href: ROOT + 'hub/fsa-4-partners/adesao/', text: ' Ir para a adesão.' });
       say('Empresas com CNPJ ativo que atendem outras empresas (agências, contabilidades, consultorias, integradores, mentores e assessorias) podem indicar quem precisa de tecnologia. A FSA⁴Future conduz a conversa, o escopo e a proposta. Com o contrato fechado e pago, o parceiro recebe comissão sobre o valor líquido recebido.', null, a);
@@ -328,6 +340,7 @@
         var ans = KNOW[k][1] === 'ABOUT' ? null : KNOW[k][1] === 'WHO' ? WHO_TEXT : KNOW[k][1] === 'PILLARS' ? PILLARS_TEXT : KNOW[k][1];
         var nx = KNOW[k][2];
         if (nx === 'about') { about(); return true; }
+        if (nx === 'startup') { startupInfo(); return true; }
         if (ans) say(ans);
         if (nx === 'menu') menu(); else if (nx === 'solutions') solutions(); else if (nx === 'metodo') method();
         else if (nx === 'handoff') handoff(); else if (nx === 'parceiro') partnerInfo(); else if (nx === 'after') afterAnswer();
