@@ -15,7 +15,7 @@
     telefone: '+551233519958',
     telefoneLabel: '(12) 3351-9958',
     calendly: 'https://calendly.com/catiascan/primeiro-atendimento-gratuito-fsa-future',
-    formEndpoint: '',        // POST JSON opcional (ex.: Apps Script/Formspree) com cópia para atendimento@
+    formEndpoint: 'https://formsubmit.co/ajax/catia@fsasolucoes.com.br',        // POST JSON opcional (ex.: Apps Script/Formspree) com cópia para atendimento@
     consentVersion: '1.0'
   };
   var ROOT = document.documentElement.getAttribute('data-root') || './';
@@ -129,7 +129,7 @@
     var out = [];
     out.push({ key: 'agenda', icon: 'calendar', label: 'Agendar a Conversa de Entendimento', desc: '30 minutos, gratuita, por Google Meet.', href: calendlyUrl(ctx, withSummary), external: true, track: 'agenda_abertura' });
     if (CONFIG.whatsapp) out.push({ key: 'whatsapp', icon: 'message-circle', label: 'WhatsApp', desc: 'Abre o WhatsApp com o resumo pronto para enviar.', href: 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(text), external: true, track: 'clique_whatsapp' });
-    if (CONFIG.email) out.push({ key: 'email', icon: 'mail', label: 'E-mail', desc: CONFIG.email, href: 'mailto:' + CONFIG.email + '?subject=' + encodeURIComponent('Quero conversar sobre meu desafio') + '&body=' + encodeURIComponent(text), track: 'clique_email' });
+    if (CONFIG.email) out.push({ key: 'email', icon: 'mail', label: 'E-mail', desc: CONFIG.email + ' · abre no Gmail', href: 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(CONFIG.email) + '&su=' + encodeURIComponent('Quero conversar sobre meu desafio') + '&body=' + encodeURIComponent(text), external: true, track: 'clique_email' });
     if (CONFIG.telefone) out.push({ key: 'telefone', icon: 'phone', label: 'Telefone', desc: CONFIG.telefoneLabel || CONFIG.telefone, href: 'tel:' + CONFIG.telefone, track: 'solicitacao_telefone' });
     return out;
   }
@@ -399,7 +399,7 @@
       err(2); renderChannels(); go(3);
       track('envio_formulario', { etapa: 'dados' });
       if (CONFIG.formEndpoint) {
-        try { fetch(CONFIG.formEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign(ctx(), { resumo: summaryText(ctx()) })) }); } catch (e) {}
+        try { var c0 = ctx(); fetch(CONFIG.formEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: 'Novo contato pelo site: ' + (c0.empresa || c0.nome), _template: 'table', _captcha: 'false', 'Nome': c0.nome, 'Empresa': c0.empresa, 'E-mail': c0.email, 'Telefone / WhatsApp': c0.telefone || '—', 'Tamanho da empresa': c0.porte || '—', 'Desafio': c0.desafio, 'Origem': c0.origem, 'Página': location.href }) }); } catch (e) {}
       }
     });
     $('#back-2').addEventListener('click', function () { go(2); });
