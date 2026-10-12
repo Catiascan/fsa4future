@@ -481,6 +481,7 @@
       document.body.style.overflow = ''; launcher.focus();
     }
     launcher.addEventListener('click', function () { panel.hidden ? open() : close(); });
+    setTimeout(function () { root.classList.add('is-quiet'); }, 6000); // QA-022: etiqueta só nos primeiros segundos
     closeBtn.addEventListener('click', close);
     root.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) close(); });
     form.addEventListener('submit', function (e) {

@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="8 14 104 108" width="104" height="108"><title>FSiA</title>
-<rect x="40" y="86" width="40" height="32" rx="12" fill="#073B4C"/>
+<rect x="40" y="84" width="40" height="34" rx="12" fill="#073B4C"/>
+<rect x="53" y="76" width="14" height="12" rx="3" fill="#0B4F63"/>
 <path d="M52 98h16" stroke="#F9DC6B" stroke-width="4" stroke-linecap="round"/>
 <path d="M24 54a36 36 0 0 1 72 0" fill="none" stroke="#C06F42" stroke-width="6" stroke-linecap="round"/>
 <rect x="28" y="22" width="64" height="60" rx="22" fill="#F8F6F1" stroke="#073B4C" stroke-width="3"/>
