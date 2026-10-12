@@ -155,7 +155,7 @@
   };
   var SIGNALS = [
     ['partners', /parceir|indicar|indica[cç][aã]o|comiss/i],
-    ['products', /produto|mvp|startup|testar (uma )?ideia|ideia de/i],
+    ['products', /produto|mvp|startup|ideia|criar (um |uma )?(app|aplicativ|plataforma|sistema|site)|do zero/i],
     ['solutions', /sistema|app|aplicativ|api|integra|bot|\bia\b|intelig[eê]ncia|dados|banco de dados|legado|moderniz|software|cloud|nuvem/i],
     ['flow', /processo|planilha|manual|retrabalho|lent|redigit|n[aã]o conversam|burocr|produtividade|automa/i]
   ];
@@ -167,6 +167,19 @@
     'Tem alguma data ou urgência que a gente deva saber?'
   ];
   var QLABELS = ['Desafio:', 'Quem sente:', 'Sistemas citados:', 'O que mudaria:', 'Urgência:'];
+  var IDEA_QUESTIONS = [
+    'Me conta um pouco do desafio. O que está acontecendo hoje?',
+    'Que bom! Para quem é essa ideia? Quem usaria no dia a dia?',
+    'Qual é a principal coisa que ela precisa fazer? Pode ser em uma frase.',
+    'Já existe algo pronto, como um rascunho, um protótipo ou conversas com possíveis clientes?',
+    'Tem alguma data ou meta, como lançamento, investidor ou edital?'
+  ];
+  var IDEA_LABELS = ['Ideia:', 'Para quem:', 'O que precisa fazer:', 'O que já existe:', 'Data ou meta:'];
+  var IDEA_SIGNAL = /ideia|criar (um |uma )?(app|aplicativ|plataforma|sistema|site|produto)|startup|\bmvp\b|do zero|ainda n[aã]o existe|s[oó] uma ideia|n[aã]o tem opera/i;
+  var CAP_GUARD = /(vcs|voc[eê]s|a fsa) (fazem|criam|desenvolvem|constroem|trabalham com)|fazem (isso|app|aplicativ|sistema|site|plataforma)|se (vcs|voc[eê]s) fazem/i;
+  var CAP_ANSWER = 'Sim. A FSA desenvolve sistemas, aplicativos, integrações e soluções com IA, do zero ou a partir do que já existe. Para uma ideia nova, o caminho costuma começar por uma versão mínima (MVP), para testar com quem vai usar antes de investir no produto completo.';
+  var PRICE_GUARD = /pre[cç]o|quanto custa|or[cç]amento|valor[- ]hora|cobram|investimento|tabela de valores|quanto (fica|sai)/i;
+  var TIME_GUARD = /prazo|quanto tempo|quando fica pronto|em quantos dias|entrega em/i;
   var GUARDS = [
     [/pre[cç]o|quanto custa|or[cç]amento|valor[- ]hora|cobram|investimento|tabela de valores/i, 'O valor depende do desafio e do escopo, que a gente define junto numa conversa. Essa primeira conversa é gratuita. Quer agendar?', 'handoff'],
     [/prazo|quanto tempo|quando fica pronto|em quantos dias|entrega em/i, 'O prazo sai do escopo. Na Conversa de Entendimento o time avalia isso com você.', 'handoff'],
@@ -227,10 +240,23 @@
       say('Olá, eu sou a FSiA. Posso ajudar você a entender como a FSA pode apoiar seu desafio, apresentar nossas soluções ou conectar você com nosso time.');
       menu();
     }
-    function startChallenge() { state.mode = 'challenge'; state.q = 0; state.ctx.respostas = []; ask(); }
+    function startChallenge() { state.mode = 'challenge'; state.q = 0; state.path = 'empresa'; state.priceAsks = 0; state.ctx.respostas = []; delete state.ctx.consentimento; delete state.ctx.enviado; delete state.ctx.frente; save(); ask(); }
+    function qList() { return state.path === 'ideia' ? IDEA_QUESTIONS : QUESTIONS; }
+    function qLabels() { return state.path === 'ideia' ? IDEA_LABELS : QLABELS; }
     function ask() {
-      say(QUESTIONS[state.q], [{ label: 'Prefiro falar com alguém', run: handoff }]);
+      say(qList()[state.q], [{ label: 'Prefiro falar com alguém', run: handoff }]);
       input.focus();
+    }
+    function nextQ() {
+      state.q++;
+      if (state.q < qList().length) return ask();
+      return finishChallenge();
+    }
+    function pauseWith(text) {
+      say(text, [
+        { label: 'Agendar a conversa gratuita', run: handoff },
+        { label: 'Continuar contando', run: nextQ }
+      ]);
     }
     function suggestFront(text) {
       for (var i = 0; i < SIGNALS.length; i++) if (SIGNALS[i][1].test(text)) return SIGNALS[i][0];
@@ -238,7 +264,7 @@
     }
     function finishChallenge() {
       var all = state.ctx.respostas.map(function (r) { return r[1]; }).join(' ');
-      var f = suggestFront(all);
+      var f = state.path === 'ideia' ? 'products' : suggestFront(all);
       state.ctx.desafio = state.ctx.respostas[0] ? state.ctx.respostas[0][1] : '';
       if (f) {
         state.ctx.frente = FRONTS[f].name; save();
@@ -285,9 +311,18 @@
       say('Seus dados são usados só para o time da FSA retornar sobre este atendimento (veja a Política de Privacidade). Como posso te chamar, e de qual empresa?', [{ label: 'Pular', run: channels }]);
       input.focus();
     }
+    function sendSummary() {
+      if (!CONFIG.formEndpoint || state.ctx.enviado) return;
+      state.ctx.enviado = true; save();
+      var c = state.ctx, body = { _subject: 'FSiA: nova conversa no site' + (c.empresa ? ' (' + c.empresa + ')' : ''), _template: 'table', _captcha: 'false',
+        'Nome': c.nome || '—', 'Empresa': c.empresa || '—', 'Frente sugerida': c.frente || '—', 'Página': location.href };
+      (c.respostas || []).forEach(function (r, i) { body[(i + 1) + '. ' + r[0].replace(':', '')] = r[1]; });
+      try { fetch(CONFIG.formEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(body) }); } catch (e) {}
+    }
     function channels() {
       state.mode = 'menu';
       var withSummary = !!state.ctx.consentimento;
+      if (withSummary) sendSummary();
       var list = el('span', { class: 'f4-msg__links' });
       channelLinks(state.ctx, withSummary).forEach(function (c) {
         var a = el('a', { href: c.href, 'data-track': c.track, 'data-track-label': 'FSiA · ' + c.label });
@@ -314,11 +349,21 @@
         if (GUARDS[3][0].test(text)) { say(GUARDS[3][1]); return ask(); }
         if (GUARDS[6][0].test(text)) { say(GUARDS[6][1]); return menu(); }
         if (GUARDS[GUARDS.length - 1][0].test(text)) return handoff();
-        state.ctx.respostas.push([QLABELS[state.q], text.slice(0, 600)]); save();
-        for (var g = 0; g < 3; g++) if (GUARDS[g][0].test(text)) { say(GUARDS[g][1]); break; }
-        state.q++;
-        if (state.q < QUESTIONS.length) return ask();
-        return finishChallenge();
+        if (state.q === 0 && IDEA_SIGNAL.test(text)) state.path = 'ideia';
+        state.ctx.respostas.push([qLabels()[state.q], text.slice(0, 600)]); save();
+        if (CAP_GUARD.test(text)) say(CAP_ANSWER);
+        if (PRICE_GUARD.test(text)) {
+          state.priceAsks = (state.priceAsks || 0) + 1;
+          return pauseWith(state.priceAsks === 1
+            ? 'O valor depende do que vai ser construído, e isso a gente define junto. A primeira conversa, de 30 minutos, é gratuita e já sai com um caminho e uma noção de investimento para o seu caso.'
+            : 'Entendo, o investimento é importante para decidir. Não passo valores por aqui porque cada caso é diferente e eu não quero te dar um número errado. Na conversa gratuita o time olha a sua ideia e te diz por onde começar gastando pouco.');
+        }
+        if (TIME_GUARD.test(text)) return pauseWith('O prazo sai do escopo. Na conversa gratuita o time avalia isso com você.');
+        return nextQ();
+      }
+      if (CAP_GUARD.test(text)) {
+        say(CAP_ANSWER);
+        return say('Quer me contar a sua ideia ou o seu desafio?', [{ label: 'Tenho um desafio', run: startChallenge }, { label: 'Quero falar com alguém', run: handoff }]);
       }
       for (var i = 0; i < GUARDS.length; i++) {
         if (GUARDS[i][0].test(text)) {
