@@ -1,3 +1,4 @@
-# HOMOLOGAÇÃO: este arquivo só vale na raiz do domínio. Em produção, gere com --prod.
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://fsa4future.com.br/sitemap.xml
