@@ -425,3 +425,12 @@ dialog.f4-dialog::backdrop{background:var(--overlay);backdrop-filter:blur(2px)}
 }
 .proof-band .stat p.small,.f4-card p.small{font-size:15px;line-height:23px}
 @media (max-width:560px){.proof{flex-direction:column;gap:4px}.proof>span[aria-hidden]{display:none}}
+/* IMPL QA-021 (12/10/2026): mascote da FSiA (proposta B "Escuta", aprovada pela Cátia; amarelo do cliente liberado como exceção).
+   Botão e topo do painel mostram a mascote; nas falas ela aparece respondendo, e no topo pensa enquanto a pessoa escreve. */
+.fsia__launcher{padding-left:8px}
+.fsia__mascot{width:42px;height:42px;border-radius:50%;background:var(--sand-100);display:grid;place-items:center;flex:none;overflow:hidden}
+.fsia__mascot img{width:34px;height:36px;display:block}
+.fsia__mascot--head{width:44px;height:44px}
+.fsia__mascot--head img{width:36px;height:38px}
+.f4-msg__avatar--img{width:24px;height:25px;border-radius:50%;background:var(--sand-100);padding:1px;object-fit:contain}
+@media (max-width:860px){.fsia__launcher{padding-left:6px}.fsia__mascot{width:40px;height:40px}}

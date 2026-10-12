@@ -221,15 +221,18 @@
     var launcher = $('#fsia-launcher'), panel = $('#fsia-panel'), log = $('#fsia-log'), form = $('#fsia-form'), input = $('#fsia-input'), closeBtn = $('#fsia-close');
     var state = { mode: 'menu', q: 0, ctx: session.get('f4_fsia_ctx') || { respostas: [], origem: 'FSiA' }, started: false };
 
+    var faceTop = $('#fsia-face'), faceBase = faceTop ? faceTop.getAttribute('src').replace(/fsia-ouvindo\.svg$/, '') : '', faceTimer;
+    function faceImg(k) { var i = el('img', { class: 'f4-msg__avatar f4-msg__avatar--img', src: faceBase + 'fsia-' + k + '.svg', alt: '', width: '24', height: '25' }); i.setAttribute('aria-hidden', 'true'); return i; }
+    function face(k, back) { if (!faceTop) return; clearTimeout(faceTimer); faceTop.src = faceBase + 'fsia-' + k + '.svg'; if (back) faceTimer = setTimeout(function () { faceTop.src = faceBase + 'fsia-ouvindo.svg'; }, back); }
     function save() { session.set('f4_fsia_ctx', state.ctx); }
     function scroll() { log.scrollTop = log.scrollHeight; }
     function clearOptions() { $all('.f4-msg__opts', log).forEach(function (o) { o.remove(); }); }
     function say(text, options, extra) {
-      clearOptions();
+      clearOptions(); face('respondendo', 1800);
       var bubble = el('div', { class: 'f4-msg__bubble' }); bubble.textContent = text || '';
       if (extra) bubble.appendChild(extra);
       var m = el('div', { class: 'f4-msg' }, [
-        el('div', { class: 'f4-msg__who' }, [el('span', { class: 'f4-msg__avatar', 'aria-hidden': 'true', text: 'iA' }), 'FSiA']),
+        el('div', { class: 'f4-msg__who' }, [faceImg('respondendo'), 'FSiA']),
         bubble
       ]);
       if (options && options.length) {
@@ -243,7 +246,7 @@
       log.appendChild(m); scroll();
     }
     function userSay(text) {
-      clearOptions();
+      clearOptions(); face('pensando');
       log.appendChild(el('div', { class: 'f4-msg f4-msg--user' }, [el('div', { class: 'f4-msg__bubble', text: text })])); scroll();
       if (!state.started) { state.started = true; track('fsia_inicio_conversa'); }
     }
