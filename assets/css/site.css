@@ -411,3 +411,17 @@ dialog.f4-dialog::backdrop{background:var(--overlay);backdrop-filter:blur(2px)}
 .proof-band .stat{display:flex;align-items:center;gap:14px;padding-top:12px}
 .proof-band .stat__n{white-space:nowrap}
 .proof-band .stat p{margin:0;max-width:22ch}
+/* IMPL QA-020 (12/10/2026): mantém título e texto lado a lado, mas aproxima os tamanhos.
+   O título dos blocos lado a lado desce um degrau (h2 48→40, h1 interno 64→52) e o texto ao lado sobe
+   (mínimo 18px), centralizado na altura do título, em vez de colado lá embaixo. */
+@media (min-width:861px){
+  .grid-split{align-items:center!important}
+  .grid-split>*{align-self:center!important}
+  .grid-split .h1{font-size:52px;line-height:58px}
+  .grid-split .h2,.grid-2>.h2,.cols-1-12>.h2{font-size:40px;line-height:46px}
+  .grid-split p,.grid-2>.stack>p,.cols-1-12 p{font-size:18px;line-height:28px}
+  .grid-split .lead,.grid-2>.stack>.lead,.cols-1-12 .lead{font-size:20px;line-height:30px}
+  .grid-2>.h2+.stack,.grid-2>.h2+.list-check{align-self:center}
+}
+.proof-band .stat p.small,.f4-card p.small{font-size:15px;line-height:23px}
+@media (max-width:560px){.proof{flex-direction:column;gap:4px}.proof>span[aria-hidden]{display:none}}
