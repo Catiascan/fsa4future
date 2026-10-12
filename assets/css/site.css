@@ -434,3 +434,26 @@ dialog.f4-dialog::backdrop{background:var(--overlay);backdrop-filter:blur(2px)}
 .fsia__mascot--head img{width:36px;height:38px}
 .f4-msg__avatar--img{width:24px;height:25px;border-radius:50%;background:var(--sand-100);padding:1px;object-fit:contain}
 @media (max-width:860px){.fsia__launcher{padding-left:6px}.fsia__mascot{width:40px;height:40px}}
+/* IMPL QA-021b (12/10/2026): a mascote fica solta na tela, flutuando, sem círculo (pedido da Cátia).
+   Ao lado dela, uma etiqueta pequena "Fale com a FSiA". O botão inteiro continua clicável e acessível. */
+.fsia__launcher{background:transparent;box-shadow:none;padding:0;height:auto;gap:4px;flex-direction:row-reverse;align-items:flex-end}
+.fsia__launcher:hover{background:transparent}
+.fsia__launcher:focus-visible{outline:3px solid var(--focus-ring);outline-offset:4px;border-radius:16px}
+.fsia__mascot--float{width:72px;height:80px;border-radius:0;background:transparent;overflow:visible;position:relative;display:block}
+.fsia__mascot--float img{width:64px;height:66px;filter:drop-shadow(0 6px 10px rgba(7,59,76,.22))}
+.fsia__mascot--float::after{content:"";position:absolute;left:18px;right:18px;bottom:0;height:6px;border-radius:50%;background:rgba(7,59,76,.16)}
+.fsia__label{display:inline-flex;align-items:center;height:38px;padding:0 16px;margin-bottom:22px;border-radius:var(--radius-pill);background:var(--petrol-900);color:var(--off-white);font-size:14px;font-weight:600;box-shadow:var(--shadow-2);white-space:nowrap}
+.fsia__launcher:hover .fsia__label{background:var(--petrol-800)}
+@media (prefers-reduced-motion:no-preference){
+  .fsia__mascot--float img{animation:fsia-float 3.2s ease-in-out infinite}
+  .fsia__mascot--float::after{animation:fsia-shadow 3.2s ease-in-out infinite}
+}
+@keyframes fsia-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes fsia-shadow{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.8);opacity:.6}}
+@media (max-width:860px){.fsia__launcher{height:auto;padding:0}.fsia__mascot--float{width:60px;height:68px}.fsia__mascot--float img{width:54px;height:56px}.fsia__label{height:34px;font-size:13px;padding:0 12px;margin-bottom:18px}}
+/* QA-021b: tamanho da mascote flutuante */
+.fsia__mascot--float{width:96px;height:106px}
+.fsia__mascot--float img{width:88px;height:91px}
+.fsia__mascot--float::after{left:24px;right:24px}
+.fsia__label{margin-bottom:30px}
+@media (max-width:860px){.fsia__mascot--float{width:70px;height:78px}.fsia__mascot--float img{width:64px;height:66px}.fsia__mascot--float::after{left:16px;right:16px}.fsia__label{margin-bottom:22px}}
