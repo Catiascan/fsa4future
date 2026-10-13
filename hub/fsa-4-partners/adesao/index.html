@@ -148,6 +148,7 @@
     for (var i = 0; i < obrig.length; i++){ var el = document.getElementById(obrig[i]); if (!el.value.trim()) return falha('Preencha os campos obrigatórios (*).', el); }
     if (!cnpjValido(v('cnpj'))) return falha('CNPJ inválido. Confira os 14 dígitos.', cn);
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('email'))) return falha('Confira o e-mail.', document.getElementById('email'));
+    var tel = dig(v('whats')); if (tel.length < 10 || tel.length > 13) return falha('Confira o telefone com DDD, por exemplo (12) 99999-0000.', document.getElementById('whats'));
     if (!document.getElementById('aceite').checked) return falha('Marque o aceite do contrato para continuar.');
     if (!document.getElementById('lgpd').checked) return falha('Marque a autorização de uso dos dados para continuar.');
     if (f.querySelector('[name="_honey"]').value) return;
@@ -157,6 +158,9 @@
       _subject: 'Nova adesão ao Programa de Parceiros: ' + (v('fantasia') || v('razao')),
       _template: 'table',
       _captcha: 'false',
+      email: v('email'),
+      _replyto: v('email'),
+      _autoresponse: 'Recebemos a sua adesão ao Programa de Parceiros FSA⁴Future. Aceite registrado: contrato versão ' + VERSAO + ', em ' + quando + ' (horário de Brasília), por ' + v('contato') + ' (' + v('cargo') + '), empresa ' + v('razao') + ', CNPJ ' + v('cnpj') + '. Guarde este e-mail como comprovante. Em breve a equipe da FSA⁴Future entra em contato.',
       'Razão social': v('razao'),
       'Nome fantasia': v('fantasia') || '—',
       'CNPJ': v('cnpj'),
