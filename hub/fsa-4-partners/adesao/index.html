@@ -22,6 +22,7 @@
 .contrato h3{font-size:16px;line-height:24px;margin:18px 0 6px}
 .contrato h3:first-of-type{margin-top:0}
 .contrato p{margin:0 0 8px}
+.contrato table{width:100%;border-collapse:collapse;font-size:14px;line-height:22px;margin:8px 0}.contrato th,.contrato td{border:1px solid var(--border-subtle);padding:6px 8px;text-align:left;vertical-align:top}.contrato ul{padding-left:20px;margin:0 0 8px}
 .contrato .calc{font-family:ui-monospace,Consolas,monospace;font-size:13px;border-left:3px solid #FFDE59;padding:8px 14px;margin:8px 0}
 .adesao-ok{text-align:left}
 </style>
@@ -75,23 +76,136 @@
 
 <h2 class="h4">2. Contrato do Programa de Parceiros</h2>
 <div class="contrato" tabindex="0" aria-label="Texto do contrato">
-<p class="small muted">Modelo v1.0 · 03/10/2026</p>
-<h3>1. Partes e objeto</h3><p>FSA IT4FUTURE HUB TECNOLOGIA LTDA (FSA⁴Future, doravante FSA), CNPJ 69.447.199/0001-05, e o PARCEIRO identificado no cadastro. O PARCEIRO poderá indicar oportunidades comerciais para os serviços da FSA (desenvolvimento de software sob medida, pacotes de horas, diagnóstico e sustentação de sistemas) nos termos deste contrato e do regulamento do programa.</p>
-<h3>2. Papel do parceiro</h3><p>O PARCEIRO apresenta a oportunidade e faz a ponte com quem decide. Escopo, prazo, preço e proposta são conduzidos exclusivamente pela FSA, que não autoriza o PARCEIRO a prometer valores, prazos ou condições em seu nome.</p>
-<h3>3. Proteção da oportunidade</h3><p>A oportunidade cadastrada e aprovada terá prioridade em favor do PARCEIRO por 30 dias, renováveis a critério da FSA quando houver avanço comprovado. Oportunidade já protegida por outro parceiro (mesmo CNPJ do cliente) entra em lista de espera, respeitada a ordem cronológica de cadastro.</p>
-<h3>4. Comissão</h3><p>A comissão segue as faixas percentuais vigentes do programa: só indicação 3%; indicação com participação na venda 6%; indicação com primeiro atendimento do cliente 10%. O percentual-base é aplicado em faixas sobre o valor do pedido: até R$ 50.000, 100% do percentual; de R$ 50.000 a R$ 200.000, 80%; acima de R$ 200.000, 60%. Descontos concedidos ao cliente podem reduzir o percentual. O percentual de cada pedido é fixado no Termo de Pedido, emitido na contratação do cliente, e não muda depois.</p>
-<h3>5. Periodicidade, pagamento e vínculo</h3><p>A comissão é apurada mensalmente, pelo regime de caixa, sobre as parcelas efetivamente recebidas pela FSA, e paga até o dia 15 do mês seguinte ao recebimento, por Pix para a chave do CNPJ do PARCEIRO, mediante nota fiscal emitida pelo CNPJ cadastrado. O cliente fica vinculado ao PARCEIRO por 12 meses a partir do primeiro aceite do cliente; pedidos novos do mesmo cliente nesse período seguem esta regra, e serviços recorrentes geram comissão somente dentro desses 12 meses.</p>
-<h3>6. Base de cálculo: valor líquido</h3><p>Os percentuais incidem sobre o valor líquido recebido, não sobre o valor bruto do contrato.</p>
+<p class="small muted">Versão 1.1 · 13/10/2026</p>
+
+<h3>1. Partes</h3>
+<p><strong>FSA IT4FUTURE HUB TECNOLOGIA LTDA</strong>, CNPJ 69.447.199/0001-05, marca FSA⁴Future (doravante <strong>FSA</strong>), e a empresa identificada no formulário de adesão, representada pela pessoa que registra o aceite (doravante <strong>PARCEIRO</strong>).</p>
+
+<h3>2. Definições</h3>
+<ul>
+<li><strong>Oportunidade:</strong> empresa indicada pelo PARCEIRO, com um desafio real de tecnologia, registrada conforme a cláusula 6.</li>
+<li><strong>Cliente indicado:</strong> a empresa da Oportunidade que contrata a FSA.</li>
+<li><strong>Pedido:</strong> cada contratação feita pelo Cliente indicado com a FSA (projeto, pacote de horas, diagnóstico, sustentação ou outro serviço).</li>
+<li><strong>Termo de Pedido:</strong> documento emitido pela FSA ao PARCEIRO a cada Pedido, que fixa o nível de participação, o percentual e as condições daquela comissão (modelo no <a href="../../../hub/fsa-4-partners/termo-de-pedido/">site</a>).</li>
+<li><strong>Valor líquido recebido:</strong> base de cálculo da comissão, definida na cláusula 9.</li>
+<li><strong>Regulamento:</strong> as regras de operação do programa, publicadas no <a href="../../../hub/fsa-4-partners/regulamento/">site</a>, que fazem parte deste contrato.</li>
+</ul>
+
+<h3>3. Objeto</h3>
+<p>O PARCEIRO poderá indicar Oportunidades para os serviços da FSA: desenvolvimento de software sob medida, pacotes de horas, diagnóstico, integração e sustentação de sistemas, e outros que a FSA vier a oferecer. Em troca, recebe comissão sobre os Pedidos fechados e pagos, nas condições deste contrato. A participação é <strong>sem exclusividade, sem meta e sem custo</strong> para nenhuma das partes.</p>
+
+<h3>4. Adesão e aprovação</h3>
+<p>4.1. Pode aderir a empresa com CNPJ ativo, apta a emitir nota fiscal de serviço.</p>
+<p>4.2. A adesão é feita pelo formulário do site e passa a valer quando a FSA aprova o cadastro e avisa o PARCEIRO por e-mail, em até 10 dias úteis. A FSA pode recusar a adesão, sem obrigação de justificar.</p>
+
+<h3>5. Papel do parceiro e níveis de participação</h3>
+<p>5.1. O PARCEIRO apresenta a Oportunidade e faz a ponte com quem decide. Escopo, prazo, preço, proposta e contrato com o cliente são conduzidos exclusivamente pela FSA.</p>
+<p>5.2. Há três níveis de participação, que definem o percentual-base:</p>
+<table class="ctab" tabindex="0"><thead><tr><th>Nível</th><th>O que o PARCEIRO faz</th><th>Percentual-base</th></tr></thead><tbody>
+<tr><td>Indicação</td><td>Registra a Oportunidade e apresenta o contato. A FSA conduz o resto.</td><td>3%</td></tr>
+<tr><td>Indicação com participação na venda</td><td>Além de indicar, participa das reuniões com o cliente e ajuda a remover objeções até o fechamento.</td><td>6%</td></tr>
+<tr><td>Indicação com primeiro atendimento</td><td>Faz o primeiro levantamento do desafio com o cliente, entrega à FSA um resumo e acompanha a venda até o fechamento.</td><td>10%</td></tr>
+</tbody></table>
+<p>5.3. O nível de cada Pedido é combinado entre as partes antes da proposta ao cliente e registrado no Termo de Pedido.</p>
+
+<h3>6. Registro da Oportunidade</h3>
+<p>6.1. O PARCEIRO registra a Oportunidade pelo canal indicado no Regulamento, com os dados mínimos ali previstos, entre eles o CNPJ da empresa indicada.</p>
+<p>6.2. A FSA responde em até 5 dias úteis se a Oportunidade foi aprovada, recusada ou entrou em lista de espera. A Oportunidade pode ser recusada quando a empresa já for cliente da FSA, tiver negociado com a FSA nos 12 meses anteriores, já estiver protegida por outro parceiro ou estiver fora do perfil atendido pela FSA.</p>
+<p>6.3. Indicação não registrada, ou registrada depois de a FSA já estar em contato com a empresa, não gera comissão.</p>
+
+<h3>7. Proteção da Oportunidade</h3>
+<p>7.1. A Oportunidade aprovada fica protegida em favor do PARCEIRO por 30 dias corridos. A FSA pode renovar a proteção por novos períodos de 30 dias quando houver avanço comprovado (reunião feita, proposta enviada ou em negociação).</p>
+<p>7.2. Se outro parceiro registrar a mesma empresa (mesmo CNPJ) durante a proteção, o registro entra em lista de espera, pela ordem cronológica. Terminada a proteção sem fechamento, a Oportunidade passa ao próximo da lista.</p>
+
+<h3>8. Comissão</h3>
+<p>8.1. O percentual-base do nível (cláusula 5.2) é aplicado <strong>por faixas progressivas</strong> sobre o valor líquido recebido de cada Pedido:</p>
+<table class="ctab" tabindex="0"><thead><tr><th>Parte do valor do Pedido</th><th>Percentual aplicado</th></tr></thead><tbody>
+<tr><td>até R$ 50.000</td><td>100% do percentual-base</td></tr>
+<tr><td>de R$ 50.000,01 a R$ 200.000</td><td>80% do percentual-base</td></tr>
+<tr><td>acima de R$ 200.000</td><td>60% do percentual-base</td></tr>
+</tbody></table>
+<p>Cada faixa vale só para a parte do valor que está dentro dela.</p>
+<div class="calc">Exemplo: Pedido com valor líquido de R$ 300.000, nível Indicação (3%)<br>
+R$ 50.000 × 3% = R$ 1.500<br>
+R$ 150.000 × 2,4% = R$ 3.600<br>
+R$ 100.000 × 1,8% = R$ 1.800<br>
+Comissão total = R$ 6.900, paga conforme o cliente paga</div>
+<p>8.2. Quando a FSA conceder ao cliente desconto sobre o preço de tabela, o percentual-base pode ser reduzido na mesma proporção do desconto. A redução é sempre informada antes, no Termo de Pedido.</p>
+<p>8.3. O percentual de cada Pedido fica fixado no Termo de Pedido e não muda depois, nem se este contrato mudar.</p>
+
+<h3>9. Base de cálculo: valor líquido</h3>
+<p>A comissão incide sobre o valor líquido efetivamente recebido pela FSA, e não sobre o valor bruto do contrato do cliente:</p>
 <div class="calc">valor bruto recebido do cliente<br>− tributos sobre o faturamento<br>− descontos e abatimentos concedidos<br>− retenções legais<br>− repasses a terceiros (licenças, infraestrutura, fornecedores)<br>= valor líquido · base da comissão</div>
-<h3>7. Cancelamento, inadimplência e estornos</h3><p>Cancelamento, inadimplência, suspensão ou encerramento do contrato do cliente suspendem ou encerram a apuração. Valores devolvidos ao cliente podem ser deduzidos de comissões futuras.</p>
-<h3>8. Confidencialidade e LGPD</h3><p>O PARCEIRO não terá acesso a informações de outros parceiros e manterá sigilo sobre informações comerciais da FSA e dos clientes. Dados pessoais de contatos indicados serão usados apenas para a finalidade da indicação, conforme a Lei 13.709/2018 (LGPD); o PARCEIRO declara ter base legal para compartilhá-los.</p>
-<h3>9. Alterações</h3><p>Mudanças nas regras não alteram contratos de clientes já aprovados, salvo registro expresso. Novas versões deste contrato podem exigir novo aceite.</p>
-<h3>10. Natureza da relação</h3><p>Não há vínculo empregatício, societário ou de representação comercial exclusiva entre as partes. Cada parte responde pelos próprios tributos.</p>
+
+<h3>10. Apuração e pagamento</h3>
+<p>10.1. A comissão é apurada mensalmente, pelo regime de caixa: entra no mês em que o cliente paga cada parcela.</p>
+<p>10.2. Até o dia 5 de cada mês, a FSA envia ao PARCEIRO o demonstrativo do mês anterior, com Pedido, parcela recebida, deduções, valor líquido, percentual e comissão. O PARCEIRO tem 10 dias para questionar; sem questionamento, o demonstrativo fica aceito.</p>
+<p>10.3. O PARCEIRO emite nota fiscal de serviço pelo CNPJ cadastrado, no valor do demonstrativo. A FSA paga até o dia 15 do mês do demonstrativo, ou em até 5 dias úteis após receber a nota, o que ocorrer por último, por Pix para a chave do CNPJ do PARCEIRO.</p>
+<p>10.4. Sem nota fiscal não há pagamento. O valor fica retido, sem juros nem correção, até a nota ser emitida.</p>
+<p>10.5. A FSA faz as retenções de tributos que a lei exigir sobre o pagamento.</p>
+
+<h3>11. Vínculo do cliente</h3>
+<p>O Cliente indicado fica vinculado ao PARCEIRO por 12 meses, contados do primeiro aceite de proposta pelo cliente. Novos Pedidos do mesmo cliente nesse período também geram comissão, cada um com seu Termo de Pedido. Serviços recorrentes (sustentação, mensalidades) geram comissão somente sobre as parcelas recebidas dentro desses 12 meses.</p>
+
+<h3>12. Cancelamento, inadimplência e estornos</h3>
+<p>12.1. Só gera comissão o que o cliente efetivamente pagou. Se o cliente atrasar, cancelar ou suspender o contrato, a apuração acompanha: parcela não paga não gera comissão.</p>
+<p>12.2. Se a FSA devolver ao cliente valor sobre o qual já pagou comissão, a comissão correspondente é descontada dos próximos pagamentos ao PARCEIRO. Não havendo pagamentos futuros em 6 meses, o PARCEIRO devolve o valor em até 30 dias após ser avisado.</p>
+
+<h3>13. O que o parceiro não pode fazer</h3>
+<p>O PARCEIRO se compromete a não:</p>
+<ul>
+<li>prometer preço, prazo, escopo, desconto ou resultado em nome da FSA;</li>
+<li>negociar ou assinar qualquer coisa em nome da FSA, nem receber valores do cliente em nome dela;</li>
+<li>se apresentar como empregado, sócio ou representante da FSA;</li>
+<li>enviar mensagens em massa ou contatar pessoas sem base legal, em nome do programa;</li>
+<li>oferecer ou aceitar vantagem indevida de qualquer pessoa, pública ou privada, para fechar um negócio (Lei 12.846/2013, a Lei Anticorrupção);</li>
+<li>registrar como sua uma Oportunidade que não indicou.</li>
+</ul>
+<p>Se o PARCEIRO também recebe remuneração do cliente pela mesma indicação, deve informar a FSA no registro da Oportunidade.</p>
+
+<h3>14. Uso de marca</h3>
+<p>14.1. O PARCEIRO pode usar a marca FSA⁴Future apenas para dizer que é parceiro do programa, conforme as orientações enviadas pela FSA, enquanto este contrato valer. A autorização termina junto com o contrato.</p>
+<p>14.2. A FSA só cita o nome ou a marca do PARCEIRO em materiais públicos com autorização dele, por escrito.</p>
+
+<h3>15. Confidencialidade</h3>
+<p>As partes mantêm sigilo sobre as informações comerciais, técnicas e financeiras uma da outra e dos clientes a que tiverem acesso pelo programa, inclusive preços, propostas e demonstrativos. O sigilo vale durante o contrato e por 2 anos depois do fim. O PARCEIRO não tem acesso a informações de outros parceiros.</p>
+
+<h3>16. Proteção de dados (LGPD)</h3>
+<p>16.1. Cada parte trata os dados pessoais sob sua responsabilidade como controladora independente, conforme a Lei 13.709/2018 (LGPD) e a <a href="../../../privacidade/">Política de Privacidade</a> da FSA.</p>
+<p>16.2. Ao registrar uma Oportunidade, o PARCEIRO declara que tem base legal para compartilhar os dados do contato indicado e que o contato sabe que será procurado pela FSA. Os dados são usados apenas para a finalidade da indicação.</p>
+<p>16.3. A parte que identificar incidente de segurança envolvendo dados do programa avisa a outra em até 48 horas.</p>
+
+<h3>17. Responsabilidades</h3>
+<p>Cada parte responde pelos próprios atos, empregados e prestadores. O PARCEIRO responde perante a FSA e terceiros pelos prejuízos causados por descumprimento da cláusula 13. A FSA responde perante o cliente pela execução dos serviços que contratar com ele.</p>
+
+<h3>18. Natureza da relação</h3>
+<p>Este contrato não cria vínculo de emprego, sociedade, franquia nem representação comercial (Lei 4.886/1965). O PARCEIRO não tem poderes para agenciar propostas, negociar ou fechar negócios em nome da FSA. Ele atua com autonomia, sem horário, sem subordinação e sem exclusividade. Cada parte responde pelos próprios tributos e encargos.</p>
+
+<h3>19. Vigência e encerramento</h3>
+<p>19.1. O contrato vale por prazo indeterminado, a partir da aprovação da adesão.</p>
+<p>19.2. Qualquer parte pode encerrá-lo a qualquer momento, sem multa, com aviso por e-mail de 30 dias.</p>
+<p>19.3. Encerrado o contrato, as comissões de Pedidos com Termo de Pedido já emitido continuam devidas, nas condições de cada Termo, até o fim do vínculo de 12 meses do cliente. Oportunidades ainda não convertidas deixam de estar protegidas.</p>
+<p>19.4. Se o PARCEIRO descumprir a cláusula 13, a FSA pode encerrar o contrato de imediato, por e-mail. Nesse caso, o PARCEIRO perde o direito às comissões ainda não pagas das Oportunidades envolvidas no descumprimento.</p>
+
+<h3>20. Alterações</h3>
+<p>A FSA pode publicar nova versão deste contrato ou do Regulamento, com aviso por e-mail de 30 dias antes de valer. A nova versão vale para Oportunidades registradas depois dela e exige novo aceite do PARCEIRO. Termos de Pedido já emitidos não mudam.</p>
+
+<h3>21. Comunicações</h3>
+<p>As comunicações do programa são feitas por e-mail: para o PARCEIRO, no endereço do cadastro; para a FSA, em <a href="mailto:catia@fsasolucoes.com.br?subject=Programa%20de%20Parceiros">catia@fsasolucoes.com.br</a>, com o assunto "Programa de Parceiros". Cada parte mantém seus dados de contato atualizados.</p>
+
+<h3>22. Aceite eletrônico</h3>
+<p>As partes reconhecem como válido o aceite eletrônico feito no site, nos termos do art. 10, § 2º, da Medida Provisória 2.200-2/2001. O aceite é registrado com nome e cargo do representante, CNPJ, data, hora e versão do contrato, e o PARCEIRO recebe o comprovante por e-mail. Quem registra o aceite declara ter poderes para representar a empresa.</p>
+
+<h3>23. Foro</h3>
+<p>Fica eleito o foro da comarca da sede da FSA para resolver questões deste contrato, depois de as partes tentarem resolvê-las por conversa direta.</p>
+
 </div>
+
+<p class="small">Leia também em página inteira, com opção de salvar em PDF: <a href="../../../hub/fsa-4-partners/contrato/">contrato</a> · <a href="../../../hub/fsa-4-partners/regulamento/">regulamento</a> · <a href="../../../hub/fsa-4-partners/termo-de-pedido/">modelo do Termo de Pedido</a>.</p>
 
 <h2 class="h4">3. Aceite</h2>
 <p class="small muted">O aceite é registrado com o nome e o cargo do representante, a data, a hora e a versão do contrato.</p>
-<label class="f4-check"><input type="checkbox" id="aceite" required aria-required="true"><span class="f4-check__box" aria-hidden="true"><svg class="f4-icon f4-icon--16" aria-hidden="true"><use href="../../../assets/icons/sprite.svg#i-check"></use></svg></span><span>Li e concordo com as condições do contrato do Programa de Parceiros (v1.0), incluindo o valor líquido como base de cálculo da comissão, e declaro ter poderes para representar a empresa.</span></label>
+<label class="f4-check"><input type="checkbox" id="aceite" required aria-required="true"><span class="f4-check__box" aria-hidden="true"><svg class="f4-icon f4-icon--16" aria-hidden="true"><use href="../../../assets/icons/sprite.svg#i-check"></use></svg></span><span>Li e concordo com o contrato do Programa de Parceiros (versão 1.1) e com o regulamento do programa, incluindo o valor líquido como base de cálculo da comissão, e declaro ter poderes para representar a empresa.</span></label>
 <label class="f4-check"><input type="checkbox" id="lgpd" required aria-required="true"><span class="f4-check__box" aria-hidden="true"><svg class="f4-icon f4-icon--16" aria-hidden="true"><use href="../../../assets/icons/sprite.svg#i-check"></use></svg></span><span>Autorizo o uso destes dados para a FSA⁴Future analisar a adesão e retornar, conforme a <a href="../../../privacidade/">Política de Privacidade</a>.</span></label>
 <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
 <p class="form-error" role="alert" id="adesao-erro"></p>
@@ -125,7 +239,7 @@
 <script>
 (function(){
   var DESTINO = 'https://formsubmit.co/ajax/catia@fsasolucoes.com.br';
-  var VERSAO = '1.0 · 03/10/2026';
+  var VERSAO = '1.1 · 13/10/2026';
   var f = document.getElementById('adesao-form');
   var erro = document.getElementById('adesao-erro');
   var btn = document.getElementById('adesao-enviar');
