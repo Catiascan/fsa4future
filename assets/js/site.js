@@ -609,8 +609,91 @@
     });
   }
 
+
+  /* ---------------- acessibilidade (QA-023) ----------------
+     Botão fixo à esquerda: Libras (VLibras, só carrega quando a pessoa ativa), ouvir a página,
+     texto maior, alto contraste, sublinhar links e pausar animações. Preferências ficam no aparelho. */
+  function initA11y() {
+    var KEY = 'f4_a11y', html = document.documentElement;
+    var pref = {}; try { pref = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { pref = {}; }
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(pref)); } catch (e) {} }
+    function apply() {
+      html.classList.toggle('a11y-text-1', pref.text === 1); html.classList.toggle('a11y-text-2', pref.text === 2);
+      html.classList.toggle('a11y-contrast', !!pref.contrast); html.classList.toggle('a11y-links', !!pref.links); html.classList.toggle('a11y-still', !!pref.still);
+    }
+    apply();
+    var ICON = '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="7" r="1.4" fill="currentColor"/><path d="M7 10h10M12 10v4l-2.5 5M12 14l2.5 5"/></svg>';
+    var wrap = el('div', { class: 'a11y', id: 'a11y' });
+    var btn = el('button', { type: 'button', class: 'a11y__btn', id: 'a11y-btn', 'aria-expanded': 'false', 'aria-controls': 'a11y-panel' });
+    btn.innerHTML = ICON + '<span class="visually-hidden">Acessibilidade</span>';
+    var panel = el('section', { class: 'a11y__panel', id: 'a11y-panel', role: 'dialog', 'aria-label': 'Opções de acessibilidade', hidden: '' });
+    function opt(id, label, desc) {
+      var b = el('button', { type: 'button', class: 'a11y__opt', id: id, 'aria-pressed': 'false' }, [el('b', { text: label }), el('span', { text: desc })]);
+      return b;
+    }
+    var bLibras = opt('a11y-libras', 'Libras', 'Tradução para Libras com o VLibras, do Governo Federal');
+    var bOuvir = opt('a11y-ouvir', 'Ouvir a página', 'Lê o conteúdo em voz alta');
+    var bTexto = opt('a11y-texto', 'Texto maior', 'Aumenta o tamanho de tudo em dois passos');
+    var bContraste = opt('a11y-contraste', 'Alto contraste', 'Deixa textos e cores mais fortes');
+    var bLinks = opt('a11y-links', 'Destacar links', 'Sublinha todos os links');
+    var bParar = opt('a11y-parar', 'Pausar animações', 'Para a mascote e os movimentos');
+    var reset = el('button', { type: 'button', class: 'a11y__reset', text: 'Voltar ao padrão' });
+    var more = el('a', { class: 'a11y__more', href: ROOT + 'acessibilidade/', text: 'Sobre a acessibilidade do site' });
+    panel.appendChild(el('div', { class: 'a11y__head' }, [el('b', { text: 'Acessibilidade' }), el('button', { type: 'button', class: 'a11y__close', 'aria-label': 'Fechar acessibilidade', text: '×', onclick: function () { toggle(false); } })]));
+    [bLibras, bOuvir, bTexto, bContraste, bLinks, bParar].forEach(function (b) { panel.appendChild(b); });
+    panel.appendChild(el('div', { class: 'a11y__foot' }, [reset, more]));
+    wrap.appendChild(panel); wrap.appendChild(btn); document.body.appendChild(wrap);
+    function sync() {
+      bTexto.setAttribute('aria-pressed', pref.text ? 'true' : 'false'); bTexto.querySelector('span').textContent = pref.text === 2 ? 'Tamanho máximo. Toque de novo para voltar' : pref.text === 1 ? 'Toque de novo para aumentar mais' : 'Aumenta o tamanho de tudo em dois passos';
+      bContraste.setAttribute('aria-pressed', pref.contrast ? 'true' : 'false'); bLinks.setAttribute('aria-pressed', pref.links ? 'true' : 'false'); bParar.setAttribute('aria-pressed', pref.still ? 'true' : 'false');
+    }
+    sync();
+    function toggle(open) { panel.hidden = !open; btn.setAttribute('aria-expanded', open ? 'true' : 'false'); if (open) panel.querySelector('.a11y__opt').focus(); else btn.focus(); }
+    btn.addEventListener('click', function () { toggle(panel.hidden); });
+    panel.addEventListener('keydown', function (e) { if (e.key === 'Escape') toggle(false); });
+    bTexto.addEventListener('click', function () { pref.text = ((pref.text || 0) + 1) % 3; save(); apply(); sync(); });
+    bContraste.addEventListener('click', function () { pref.contrast = !pref.contrast; save(); apply(); sync(); });
+    bLinks.addEventListener('click', function () { pref.links = !pref.links; save(); apply(); sync(); });
+    bParar.addEventListener('click', function () { pref.still = !pref.still; save(); apply(); sync(); });
+    reset.addEventListener('click', function () { pref = {}; save(); apply(); sync(); stopSpeech(); });
+    // Ouvir a página (voz do próprio aparelho, sem serviço externo)
+    var speaking = false;
+    function stopSpeech() { if (window.speechSynthesis) speechSynthesis.cancel(); speaking = false; bOuvir.setAttribute('aria-pressed', 'false'); bOuvir.querySelector('b').textContent = 'Ouvir a página'; }
+    bOuvir.addEventListener('click', function () {
+      if (!('speechSynthesis' in window)) { bOuvir.querySelector('span').textContent = 'Este navegador não lê em voz alta. Use o leitor de tela do aparelho.'; return; }
+      if (speaking) { stopSpeech(); return; }
+      var main = document.getElementById('conteudo') || document.querySelector('main'); if (!main) return;
+      var parts = (main.innerText || '').split(/\n+/).map(function (t) { return t.trim(); }).filter(Boolean);
+      var voices = speechSynthesis.getVoices().filter(function (v) { return /^pt(-|_)BR/i.test(v.lang); });
+      speechSynthesis.cancel(); speaking = true; bOuvir.setAttribute('aria-pressed', 'true'); bOuvir.querySelector('b').textContent = 'Parar a leitura';
+      parts.forEach(function (t, i) { var u = new SpeechSynthesisUtterance(t); u.lang = 'pt-BR'; if (voices[0]) u.voice = voices[0]; u.rate = 1; if (i === parts.length - 1) u.onend = stopSpeech; speechSynthesis.speak(u); });
+      track('acessibilidade_ouvir');
+    });
+    window.addEventListener('pagehide', function () { if (window.speechSynthesis) speechSynthesis.cancel(); });
+    // Libras: VLibras só é carregado quando a pessoa pede
+    var vlibrasOn = false;
+    bLibras.addEventListener('click', function () {
+      track('acessibilidade_libras');
+      if (vlibrasOn) { var vb = document.querySelector('[vw-access-button]'); if (vb) vb.click(); toggle(false); return; }
+      vlibrasOn = true; bLibras.querySelector('span').textContent = 'Carregando o VLibras…';
+      var box = document.createElement('div'); box.setAttribute('vw', ''); box.className = 'enabled';
+      box.innerHTML = '<div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>';
+      document.body.appendChild(box);
+      var sc = document.createElement('script'); sc.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
+      sc.onload = function () {
+        try { new window.VLibras.Widget('https://vlibras.gov.br/app'); } catch (e) {}
+        if (typeof window.onload === 'function') { try { window.onload(); } catch (e) {} }
+        bLibras.setAttribute('aria-pressed', 'true'); bLibras.querySelector('span').textContent = 'Ativo. Clique num texto para ver em Libras.';
+        setTimeout(function () { var vb = document.querySelector('[vw-access-button]'); if (vb) vb.click(); }, 900);
+        toggle(false);
+      };
+      sc.onerror = function () { vlibrasOn = false; bLibras.querySelector('span').textContent = 'Não foi possível carregar o VLibras agora. Tente de novo.'; };
+      document.body.appendChild(sc);
+    });
+  }
+
   function init() {
-    initConsent(); initMenu(); initFSiA(); initConversar(); initConfirmPage(); initDialogClose(); initMethodHome();
+    initConsent(); initMenu(); initA11y(); initFSiA(); initConversar(); initConfirmPage(); initDialogClose(); initMethodHome();
     var hub = document.body.getAttribute('data-hub'); if (hub) track('visita_hub', { frente: hub });
     if (document.body.getAttribute('data-page') === 'case') track('visualizacao_case');
   }
