@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="pt-BR" data-root="../../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chamados do parceiro · FSA⁴Partners · FSA⁴Future</title>
+<meta name="description" content="Canal do parceiro FSA⁴Partners: abertura de chamados com severidade, prazos e aprovação por entrega.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://fsa4future.com.br/hub/fsa-4-partners/chamados/">
+<meta name="theme-color" content="#073B4C">
+<link rel="icon" href="../../../favicon.ico" sizes="any">
+<link rel="icon" href="../../../assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../../assets/logo/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../../../assets/logo/favicon-180.png">
+<link rel="manifest" href="../../../site.webmanifest">
+<link rel="preload" href="../../../assets/fonts/montserrat-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../../assets/fonts/montserrat-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../assets/css/site.css?v=20261014b">
+<script src="../../../assets/js/site.js?v=20261014b" defer></script>
+<style>
+.ch-aviso{background:var(--sand-100);border-left:4px solid #FFDE59;padding:10px 14px;margin:0}
+.ch-trilha{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;counter-reset:none}
+.ch-trilha li{border:1px solid var(--border-subtle);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;background:var(--surface,#fff)}
+.ch-trilha b{color:var(--text-strong,#073B4C)}
+.ch-trilha span{font-size:15px;line-height:22px}
+.ch-sev{width:100%;border-collapse:collapse;font-size:15px}
+.ch-sev th{text-align:left;padding:8px;border-bottom:2px solid var(--border-subtle)}
+.ch-sev td{padding:8px;border-bottom:1px solid var(--border-subtle);vertical-align:top}
+.ch-tag{display:inline-block;font-weight:700;color:#fff;border-radius:6px;padding:1px 8px;font-size:14px}
+.ch-tag.p1{background:#B03A2E}.ch-tag.p2{background:#9A4F12}.ch-tag.p3{background:#145C72}.ch-tag.p4{background:#55626A}
+.ch-erro{color:#B03A2E;margin:0}
+.ch-estados{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ch-estados li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;padding:10px 14px;border:1px solid var(--border-subtle);border-radius:10px;opacity:.55}
+.ch-estados li.feito{opacity:1}
+.ch-estados li.agora{opacity:1;border-color:#073B4C;box-shadow:0 0 0 2px rgba(7,59,76,.15)}
+.ch-estados .bola{width:24px;height:24px;border-radius:50%;border:2px solid #073B4C;display:grid;place-items:center;font-size:13px;font-weight:700;color:#073B4C}
+.ch-estados li.feito .bola{background:#073B4C;color:#fff}
+.ch-estados p{margin:2px 0 0;font-size:15px;line-height:22px}
+@media (prefers-reduced-motion:no-preference){.ch-estados li{transition:opacity .2s}}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  'use strict';
+  var DESTINO = 'https://formsubmit.co/ajax/catia@fsasolucoes.com.br';
+  var PECA = { P: 'R$ 1.100 · 2 dias úteis', M: 'R$ 3.200 · 1 semana', G: 'R$ 8.500 · 3 semanas' };
+  var $ = function(id){ return document.getElementById(id); };
+  var form = $('ch-form'); if (!form) return;
+  var est = [], pos = 0, ticket = null;
+
+  function numero(){
+    var d = new Date(), p = function(n){ return String(n).padStart(2,'0'); };
+    return 'TESTE-' + d.getFullYear() + p(d.getMonth()+1) + p(d.getDate()) + '-' + p(d.getHours()) + p(d.getMinutes()) + '-' + Math.random().toString(36).slice(2,5).toUpperCase();
+  }
+  function montar(t){
+    var evol = /Evolu/.test(t.tipo);
+    var l = [
+      { t: 'Aberto', d: 'O chamado ' + t.num + ' chegou à equipe da FSA com a severidade sugerida ' + t.sev + '.' },
+      { t: 'Classificado pela FSA', d: evol ? 'A FSA confirma que é uma evolução, classifica como peça M (exemplo) e envia o preço: ' + PECA.M + '.' : 'A FSA confirma a severidade ' + t.sev + ' e responde dentro do prazo. Por ser ' + t.tipo.toLowerCase() + ', entra na sustentação contratada.' }
+    ];
+    if (evol) l.push({ t: 'Início aprovado pelo parceiro', d: 'Você aprova o preço e o prazo. Só então o trabalho começa.' });
+    l.push({ t: 'Em execução', d: 'A equipe trabalha no pedido. Você recebe aviso por e-mail a cada mudança.' });
+    l.push({ t: 'Em validação', d: 'A entrega está pronta para você ou para o cliente conferir.', valida: true });
+    l.push({ t: 'Entrega aprovada pelo parceiro', d: 'Com o seu aceite, o chamado é fechado.' });
+    l.push({ t: 'No fecho do mês', d: evol ? 'Entra na fatura do mês como peça aprovada.' : 'Fica registrado no relatório do mês, dentro da sustentação fixa.' });
+    return l;
+  }
+  function desenhar(){
+    var ol = $('ch-estados'); ol.innerHTML = '';
+    est.forEach(function(e, i){
+      var li = document.createElement('li');
+      li.className = i < pos ? 'feito' : (i === pos ? 'agora' : '');
+      if (i === pos) li.setAttribute('aria-current', 'step');
+      var b = document.createElement('span'); b.className = 'bola'; b.setAttribute('aria-hidden','true'); b.textContent = i < pos ? '✓' : String(i+1);
+      var dv = document.createElement('div'); var h = document.createElement('b'); h.textContent = e.t; var p = document.createElement('p'); p.textContent = e.d;
+      dv.appendChild(h); dv.appendChild(p); li.appendChild(b); li.appendChild(dv); ol.appendChild(li);
+    });
+    var atual = est[pos], fim = pos === est.length - 1;
+    $('ch-recusar').hidden = !(atual && atual.valida);
+    $('ch-avancar').hidden = fim;
+    $('ch-avancar').textContent = atual && atual.valida ? 'Aprovar entrega' : (/Classificado/.test(atual.t) && /Evolu/.test(ticket.tipo) ? 'Aprovar preço e prazo' : 'Ver a próxima etapa');
+    $('ch-dica').textContent = atual && atual.valida ? 'Nesta etapa você decide: aprovar a entrega ou pedir ajuste. Só o que for aprovado entra na fatura.' : '';
+    if (fim) mostrarFecho();
+  }
+  function mostrarFecho(){
+    var evol = /Evolu/.test(ticket.tipo);
+    var linhas = [
+      ['Sustentação fixa do mês (base + unidades)', 'Contratada', 'Sim'],
+      [ticket.num + ' · ' + ticket.tipo, 'Aprovado pelo parceiro', evol ? 'Sim · ' + PECA.M.split(' · ')[0] : 'Já incluído na sustentação'],
+      ['Exemplo · outra evolução ainda em validação', 'Sem aceite do parceiro', 'Não, fica para o mês em que for aprovada']
+    ];
+    var tb = $('ch-fecho-linhas'); tb.innerHTML = '';
+    linhas.forEach(function(r){ var tr = document.createElement('tr'); r.forEach(function(c){ var td = document.createElement('td'); td.textContent = c; tr.appendChild(td); }); tb.appendChild(tr); });
+    $('ch-fecho').hidden = false;
+  }
+  $('ch-avancar').addEventListener('click', function(){ if (pos < est.length - 1){ pos++; desenhar(); } });
+  $('ch-recusar').addEventListener('click', function(){
+    var i = est.findIndex(function(e){ return e.t === 'Em execução'; });
+    pos = i; $('ch-dica').textContent = 'O chamado voltou para execução com o seu pedido de ajuste.'; desenhar();
+  });
+
+  form.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var campos = ['ch-parceiro','ch-cliente','ch-tipo','ch-sev','ch-desc','ch-nome','ch-email'];
+    var falta = campos.filter(function(id){ var el = $(id); var ok = el.value.trim() && (el.type !== 'email' || /.+@.+\..+/.test(el.value)); el.setAttribute('aria-invalid', ok ? 'false' : 'true'); return !ok; });
+    var err = $('ch-erro');
+    if (falta.length){ err.textContent = 'Preencha os campos marcados com * (o e-mail precisa ser válido).'; err.hidden = false; $(falta[0]).focus(); return; }
+    err.hidden = true;
+    ticket = { num: numero(), parceiro: $('ch-parceiro').value.trim(), cliente: $('ch-cliente').value.trim(), unidade: $('ch-unidade').value.trim(), tipo: $('ch-tipo').value, sev: $('ch-sev').value, desc: $('ch-desc').value.trim(), nome: $('ch-nome').value.trim(), email: $('ch-email').value.trim() };
+    var btn = $('ch-enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
+    var corpo = { _subject: '[TESTE] Chamado ' + ticket.num + ' · ' + ticket.sev + ' · ' + ticket.cliente, _template: 'table', _captcha: 'false', _replyto: ticket.email,
+      'Número': ticket.num, 'Parceiro': ticket.parceiro, 'Cliente final': ticket.cliente, 'Unidade': ticket.unidade || '—', 'Tipo': ticket.tipo, 'Severidade sugerida': ticket.sev,
+      'Descrição': ticket.desc, 'Aberto por': ticket.nome, 'E-mail para avisos': ticket.email, 'Fase': 'TESTE · não gera cobrança' };
+    function seguir(msg){
+      btn.disabled = false; btn.textContent = 'Abrir outro chamado de teste';
+      est = montar(ticket); pos = 0;
+      $('ch-num').textContent = 'Chamado ' + ticket.num;
+      $('ch-resumo').textContent = ticket.parceiro + ' · ' + ticket.cliente + (ticket.unidade ? ' · ' + ticket.unidade : '') + ' · ' + ticket.tipo + ' · severidade sugerida ' + ticket.sev;
+      $('ch-envio').textContent = msg; $('ch-fecho').hidden = true;
+      $('ch-sim-sec').hidden = false; desenhar(); $('ch-num').scrollIntoView({ behavior: 'smooth', block: 'start' }); $('ch-num').setAttribute('tabindex','-1'); $('ch-num').focus({ preventScroll: true });
+    }
+    fetch(DESTINO, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(corpo) })
+      .then(function(r){ seguir(r.ok ? 'O chamado chegou à equipe da FSA. Abaixo, a simulação de como ele anda até a fatura.' : 'Não conseguimos registrar o envio agora, mas você já pode ver a simulação abaixo. Se for um chamado real, escreva para catia@fsasolucoes.com.br.'); })
+      .catch(function(){ seguir('Não conseguimos registrar o envio agora, mas você já pode ver a simulação abaixo. Se for um chamado real, escreva para catia@fsasolucoes.com.br.'); });
+  });
+});
+</script>
+
+</head>
+<body data-hub="partners-programa">
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<section class="consent" id="consent" aria-labelledby="consent-title" hidden>
+<h2 class="h4" id="consent-title" style="font-size:18px;line-height:26px">Cookies e privacidade</h2>
+<p class="small">Usamos o necessário para o site funcionar. Com sua permissão, também usamos cookies de análise para entender, de forma agregada, como o site é usado. Veja a <a href="../../../cookies/">Política de Cookies</a>.</p>
+<div id="consent-options" class="stack-sm" hidden>
+<label class="f4-check"><input type="checkbox" checked disabled><span class="f4-check__box" aria-hidden="true"><svg class="f4-icon f4-icon--16" aria-hidden="true"><use href="../../../assets/icons/sprite.svg#i-check"></use></svg></span><span>Necessários (sempre ativos)</span></label>
+<label class="f4-check"><input type="checkbox" id="c-pref"><span class="f4-check__box" aria-hidden="true"><svg class="f4-icon f4-icon--16" aria-hidden="true"><use href="../../../assets/icons/sprite.svg#i-check"></use></svg></span><span>Preferências</span></label>
+<label class="f4-check"><input type="checkbox" id="c-analise"><span class="f4-check__box" aria-hidden="true"><svg class="f4-icon f4-icon--16" aria-hidden="true"><use href="../../../assets/icons/sprite.svg#i-check"></use></svg></span><span>Análise</span></label>
+</div>
+<div class="row"><button type="button" class="f4-btn f4-btn--secondary f4-btn--sm" id="consent-reject">Recusar</button><button type="button" class="f4-btn f4-btn--secondary f4-btn--sm" id="consent-choose">Escolher</button><button type="button" class="f4-btn f4-btn--secondary f4-btn--sm" id="consent-accept">Aceitar</button><button type="button" class="f4-btn f4-btn--primary f4-btn--sm" id="consent-save" hidden>Salvar escolha</button></div>
+</section>
+<header class="site-header"><div class="container site-header__in">
+<a class="logo" href="../../../" aria-label="FSA⁴Future, Technology &amp; Business Hub: página inicial">
+<img class="logo__img" src="../../../assets/logo/fsa4future-logo-light.svg" alt="" width="187" height="40"></a>
+<nav class="nav" id="nav" aria-label="Principal"><ul><li><a href="../../../desafios/">Desafios</a></li><li><a href="../../../como-fazemos/">Como fazemos</a></li><li><a href="../../../hub/" aria-current="page">Hub</a></li><li><a href="../../../sobre/">Sobre</a></li><li><a href="../../../conteudos/">Conteúdos</a></li></ul></nav>
+<button type="button" class="f4-iconbtn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Abrir menu"><svg class="f4-icon f4-icon--24" aria-hidden="true"><use href="../../../assets/icons/sprite.svg#i-menu"></use></svg></button>
+<a class="f4-btn f4-btn--primary f4-btn--sm header-cta" href="../../../conversar/" data-track="cta_principal" data-track-label="Header · Vamos conversar">Vamos conversar</a>
+</div></header>
+<main id="conteudo" tabindex="-1">
+
+<section class="section--sm" style="border-bottom:1px solid var(--border-subtle)"><div class="container stack">
+<nav aria-label="Trilha de navegação"><ol class="f4-crumbs"><li><a href="../../../">Home</a></li><li aria-hidden="true">/</li><li><a href="../../../hub/">Hub</a></li><li aria-hidden="true">/</li><li><a href="../../../hub/fsa-4-partners/">FSA⁴Partners</a></li><li aria-hidden="true">/</li><li><span aria-current="page">Canal do parceiro · Chamados</span></li></ol></nav>
+<span class="f4-badge f4-badge--partners"><span class="f4-badge__dot" aria-hidden="true"></span>FSA⁴Partners · Canal do parceiro</span>
+<h1 class="h1">Chamados do parceiro</h1>
+<p class="lead">Abra aqui cada pedido dos clientes que você atende com a FSA⁴Future: correção, dúvida ou evolução. Cada chamado recebe um número, uma severidade e um prazo. Só os chamados que você aprovar entram na fatura do mês.</p>
+<p class="ch-aviso"><b>Fase de teste.</b> Esta página serve para conhecer o processo. Os chamados abertos agora são marcados como teste e não geram cobrança.</p>
+</div></section>
+
+<section class="section--md"><div class="container stack">
+<h2 class="h3">Como um chamado anda, do pedido à fatura</h2>
+<ol class="ch-trilha">
+<li><b>1. Você abre</b><span>Preenche o formulário abaixo. O chamado recebe um número e chega na hora à equipe da FSA.</span></li>
+<li><b>2. A FSA classifica</b><span>Confirma a severidade (P1 a P4) e responde dentro do prazo. Se for evolução, envia o preço da peça (P, M ou G).</span></li>
+<li><b>3. Você aprova o início</b><span>Só para evoluções. Correções e dúvidas começam direto, dentro da sustentação contratada.</span></li>
+<li><b>4. Em execução</b><span>Você recebe aviso a cada mudança de etapa, pelo e-mail informado no chamado.</span></li>
+<li><b>5. Em validação</b><span>A entrega fica disponível para você ou para o cliente conferir.</span></li>
+<li><b>6. Você aprova a entrega</b><span>Com o seu aceite, o chamado é fechado. Sem aceite, ele volta para ajuste.</span></li>
+<li><b>7. Fecho do mês</b><span>A fatura para o CNPJ do parceiro soma a sustentação fixa e só as entregas aprovadas.</span></li>
+</ol>
+</div></section>
+
+<section class="section--md bg-sand100"><div class="container grid-split" style="align-items:start">
+<div class="stack-sm">
+<h2 class="h3">Severidades e prazos</h2>
+<table class="ch-sev">
+<thead><tr><th>Nível</th><th>Quando</th><th>Resposta</th><th>Resolução</th></tr></thead>
+<tbody>
+<tr><td><span class="ch-tag p1">P1</span></td><td>Fora do ar, caixa ou cobrança parados</td><td>1 a 2 h úteis</td><td>4 a 8 h úteis</td></tr>
+<tr><td><span class="ch-tag p2">P2</span></td><td>Função principal degradada</td><td>4 h úteis</td><td>1 dia útil</td></tr>
+<tr><td><span class="ch-tag p3">P3</span></td><td>Erro sem bloqueio</td><td>1 dia útil</td><td>3 a 5 dias úteis</td></tr>
+<tr><td><span class="ch-tag p4">P4</span></td><td>Dúvida ou ajuste visual</td><td>2 dias úteis</td><td>Backlog</td></tr>
+</tbody></table>
+<p class="small">Segunda a sexta, das 9h às 18h. Os prazos de cada cliente ficam no plano de atendimento assinado.</p>
+</div>
+
+<form class="f4-card stack-sm" id="ch-form" novalidate style="padding:28px">
+<h2 class="h4">Abrir chamado</h2>
+<div class="f4-field"><label class="f4-label" for="ch-parceiro">Empresa parceira <span class="req" aria-hidden="true">*</span></label><input class="f4-input" id="ch-parceiro" required aria-required="true" autocomplete="organization"></div>
+<div class="f4-field"><label class="f4-label" for="ch-cliente">Cliente final <span class="req" aria-hidden="true">*</span></label><input class="f4-input" id="ch-cliente" required aria-required="true" placeholder="Ex.: Grupo JW"></div>
+<div class="f4-field"><label class="f4-label" for="ch-unidade">Unidade <span class="f4-label__opt">(opcional)</span></label><input class="f4-input" id="ch-unidade" placeholder="Ex.: Camp Dentes, franqueadora"></div>
+<div class="f4-field"><label class="f4-label" for="ch-tipo">Tipo de pedido <span class="req" aria-hidden="true">*</span></label>
+<select class="f4-input" id="ch-tipo" required aria-required="true"><option value="">Escolha</option><option>Correção de erro</option><option>Dúvida de uso</option><option>Evolução (algo novo)</option></select></div>
+<div class="f4-field"><label class="f4-label" for="ch-sev">Severidade que você sugere <span class="req" aria-hidden="true">*</span></label>
+<select class="f4-input" id="ch-sev" required aria-required="true"><option value="">Escolha</option><option value="P1">P1 · fora do ar, caixa ou cobrança parados</option><option value="P2">P2 · função principal degradada</option><option value="P3">P3 · erro sem bloqueio</option><option value="P4">P4 · dúvida ou ajuste visual</option></select>
+<span class="f4-hint">A FSA confirma a severidade ao responder.</span></div>
+<div class="f4-field"><label class="f4-label" for="ch-desc">O que aconteceu? <span class="req" aria-hidden="true">*</span></label><textarea class="f4-textarea" id="ch-desc" rows="4" required aria-required="true" placeholder="O que aconteceu, quando, em qual tela, e quantas pessoas são afetadas."></textarea></div>
+<div class="f4-field"><label class="f4-label" for="ch-nome">Quem abre o chamado <span class="req" aria-hidden="true">*</span></label><input class="f4-input" id="ch-nome" required aria-required="true" autocomplete="name"></div>
+<div class="f4-field"><label class="f4-label" for="ch-email">E-mail para os avisos <span class="req" aria-hidden="true">*</span></label><input class="f4-input" id="ch-email" type="email" required aria-required="true" autocomplete="email"></div>
+<p class="small">Não coloque senhas nem dados de pacientes ou clientes no chamado. Se precisar enviar acesso, a FSA combina um canal seguro.</p>
+<p class="ch-erro" id="ch-erro" role="alert" hidden></p>
+<div class="row"><button type="submit" class="f4-btn f4-btn--accent" id="ch-enviar">Abrir chamado de teste</button></div>
+</form>
+</div></section>
+
+<section class="section--md" id="ch-sim-sec" hidden><div class="container stack">
+<div class="stack-sm">
+<span class="label-up front-label">Simulação do seu chamado</span>
+<h2 class="h3" id="ch-num">Chamado</h2>
+<p id="ch-resumo"></p>
+<p class="small" id="ch-envio"></p>
+</div>
+<ol class="ch-estados" id="ch-estados"></ol>
+<div class="row" style="flex-wrap:wrap;gap:12px"><button type="button" class="f4-btn f4-btn--accent" id="ch-avancar">Ver a próxima etapa</button><button type="button" class="f4-btn f4-btn--secondary" id="ch-recusar" hidden>Pedir ajuste</button></div>
+<p class="small" id="ch-dica"></p>
+<div class="f4-card stack-sm" id="ch-fecho" hidden style="padding:24px">
+<h3 class="h4">Exemplo de fecho do mês</h3>
+<table class="ch-sev"><thead><tr><th>Item</th><th>Situação</th><th>Entra na fatura?</th></tr></thead><tbody id="ch-fecho-linhas"></tbody></table>
+<p class="small">A fatura vai para o CNPJ do parceiro. O parceiro cobra o cliente final com os seus próprios serviços e margem.</p>
+</div>
+</div></section>
+
+</main>
+
+<footer class="site-footer"><div class="container">
+<div class="footer-grid">
+<div class="footer-col"><a class="logo logo--light" href="../../../" aria-label="FSA⁴Future, Technology &amp; Business Hub: página inicial"><img class="logo__img logo__img--desc" src="../../../assets/logo/fsa4future-logo-descriptor-dark.svg" alt="" width="260" height="58" loading="lazy"></a><p class="inv-accent" style="font-weight:500">Technology 4 what’s next.</p></div>
+<div class="footer-col"><h2>Como fazemos</h2><ul><li><a href="../../../como-fazemos/ouvir/">Ouvir</a></li><li><a href="../../../como-fazemos/entender/">Entender</a></li><li><a href="../../../como-fazemos/conectar/">Conectar</a></li><li><a href="../../../como-fazemos/construir/">Construir</a></li><li><a href="../../../como-fazemos/validar/">Validar</a></li><li><a href="../../../como-fazemos/evoluir/">Evoluir</a></li></ul></div>
+<div class="footer-col"><h2>Hub</h2><ul><li><a href="../../../hub/fsa-4-flow/">FSA⁴Flow</a></li><li><a href="../../../hub/fsa-4-partners/">FSA⁴Partners</a></li><li><a href="../../../hub/fsa-4-solutions/">FSA⁴Solutions</a></li><li><a href="../../../hub/fsa-4-products/">FSA⁴Products</a></li><li><a href="../../../hub/fsa-4-partners/programa/">Programa de Parceiros</a></li></ul></div>
+<div class="footer-col"><h2>Contato</h2><ul><li><a href="mailto:catia@fsasolucoes.com.br" data-track="clique_email" data-track-label="Rodapé · e-mail">catia@fsasolucoes.com.br</a></li><li><a href="../../../conversar/">Agendar conversa</a></li><li><button type="button" class="linklike" data-fsia-open>Fale com a FSiA</button></li></ul></div>
+</div>
+<div class="footer-legal">
+<div class="footer-ods"><div class="footer-ods__head"><img class="footer-ods__roda" src="../../../assets/img/ods-roda.svg" alt="" width="40" height="40"><p class="footer-ods__lbl"><b>Objetivos de Desenvolvimento Sustentável</b><br>A FSA⁴Future contribui com os ODS da ONU</p></div><ul class="footer-ods__list"><li><a class="ods" href="https://brasil.un.org/pt-br/sdgs/4" target="_blank" rel="noopener" style="--ods:#C5192D" aria-label="ODS 4: Educação de qualidade (abre o site da ONU Brasil)"><b aria-hidden="true">4</b><span>Educação de qualidade</span></a></li><li><a class="ods" href="https://brasil.un.org/pt-br/sdgs/5" target="_blank" rel="noopener" style="--ods:#FF3A21" aria-label="ODS 5: Igualdade de gênero (abre o site da ONU Brasil)"><b aria-hidden="true">5</b><span>Igualdade de gênero</span></a></li><li><a class="ods" href="https://brasil.un.org/pt-br/sdgs/8" target="_blank" rel="noopener" style="--ods:#A21942" aria-label="ODS 8: Trabalho decente e crescimento econômico (abre o site da ONU Brasil)"><b aria-hidden="true">8</b><span>Trabalho decente e crescimento econômico</span></a></li><li><a class="ods" href="https://brasil.un.org/pt-br/sdgs/9" target="_blank" rel="noopener" style="--ods:#FD6925" aria-label="ODS 9: Indústria, inovação e infraestrutura (abre o site da ONU Brasil)"><b aria-hidden="true">9</b><span>Indústria, inovação e infraestrutura</span></a></li><li><a class="ods" href="https://brasil.un.org/pt-br/sdgs/10" target="_blank" rel="noopener" style="--ods:#DD1367" aria-label="ODS 10: Redução das desigualdades (abre o site da ONU Brasil)"><b aria-hidden="true">10</b><span>Redução das desigualdades</span></a></li><li><a class="ods" href="https://brasil.un.org/pt-br/sdgs/17" target="_blank" rel="noopener" style="--ods:#19486A" aria-label="ODS 17: Parcerias e meios de implementação (abre o site da ONU Brasil)"><b aria-hidden="true">17</b><span>Parcerias e meios de implementação</span></a></li></ul></div>
+<div class="links"><a href="../../../privacidade/">Política de Privacidade</a><a href="../../../cookies/">Política de Cookies</a><a href="../../../acessibilidade/">Acessibilidade</a><button type="button" class="linklike" data-consent-open>Preferências de cookies</button><a href="../../../hub/fsa-4-partners/programa/">Programa de Parceiros</a></div>
+<p>FSA IT4FUTURE HUB TECNOLOGIA LTDA · CNPJ 69.447.199/0001-05</p>
+<p>© 2026 FSA⁴Future. Todos os direitos reservados.</p>
+</div>
+</div></footer>
+
+</body>
+</html>
