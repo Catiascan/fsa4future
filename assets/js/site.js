@@ -694,8 +694,18 @@
     });
   }
 
+  /* Contagem de visitas: Cloudflare Web Analytics (14/10/2026). Não usa cookies nem
+     identifica a pessoa, por isso não depende do aviso de cookies. */
+  function loadVisitCounter() {
+    if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) || location.protocol === 'file:') return;
+    var s = document.createElement('script');
+    s.defer = true; s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    s.setAttribute('data-cf-beacon', '{"token": "5e5be302fdf04cf4b8b2daec3e408aa7"}');
+    document.body.appendChild(s);
+  }
+
   function init() {
-    initConsent(); initMenu(); initA11y(); initFSiA(); initConversar(); initConfirmPage(); initDialogClose(); initMethodHome();
+    loadVisitCounter(); initConsent(); initMenu(); initA11y(); initFSiA(); initConversar(); initConfirmPage(); initDialogClose(); initMethodHome();
     var hub = document.body.getAttribute('data-hub'); if (hub) track('visita_hub', { frente: hub });
     if (document.body.getAttribute('data-page') === 'case') track('visualizacao_case');
   }
