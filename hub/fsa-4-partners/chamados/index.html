@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var PECA = { P: 'R$ 1.100 · 2 dias úteis', M: 'R$ 3.200 · 1 semana', G: 'R$ 8.500 · 3 semanas' };
   var $ = function(id){ return document.getElementById(id); };
   var form = $('ch-form'); if (!form) return;
-  var est = [], pos = 0, ticket = null;
+  var est = [], pos = 0, ticket = null, ajustes = 0;
 
   function numero(){
     var d = new Date(), p = function(n){ return String(n).padStart(2,'0'); };
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function(){
     $('ch-recusar').hidden = !(atual && atual.valida);
     $('ch-avancar').hidden = fim;
     $('ch-avancar').textContent = atual && atual.valida ? 'Aprovar entrega' : (/Classificado/.test(atual.t) && /Evolu/.test(ticket.tipo) ? 'Aprovar preço e prazo' : 'Ver a próxima etapa');
-    $('ch-dica').textContent = atual && atual.valida ? 'Nesta etapa você decide: aprovar a entrega ou pedir ajuste. Só o que for aprovado entra na fatura.' : '';
+    $('ch-dica').textContent = atual && atual.valida ? 'Nesta etapa você decide: aprovar a entrega ou pedir ajuste (até 2 rodadas incluídas; usadas: ' + ajustes + '). Só o que for aprovado entra na fatura.' : '';
     if (fim) mostrarFecho();
   }
   function mostrarFecho(){
@@ -94,8 +94,10 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   $('ch-avancar').addEventListener('click', function(){ if (pos < est.length - 1){ pos++; desenhar(); } });
   $('ch-recusar').addEventListener('click', function(){
+    if (ajustes >= 2){ $('ch-dica').textContent = 'As 2 rodadas de ajuste incluídas já foram usadas. Um novo ajuste vira um novo chamado: evolução pelo cardápio de peças ou horas avulsas.'; return; }
+    ajustes++;
     var i = est.findIndex(function(e){ return e.t === 'Em execução'; });
-    pos = i; $('ch-dica').textContent = 'O chamado voltou para execução com o seu pedido de ajuste.'; desenhar();
+    pos = i; desenhar(); $('ch-dica').textContent = 'O chamado voltou para execução com o seu pedido de ajuste (rodada ' + ajustes + ' de 2 incluídas).';
   });
 
   form.addEventListener('submit', function(ev){
@@ -112,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function(){
       'Descrição': ticket.desc, 'Aberto por': ticket.nome, 'E-mail para avisos': ticket.email, 'Fase': 'TESTE · não gera cobrança' };
     function seguir(msg){
       btn.disabled = false; btn.textContent = 'Abrir outro chamado de teste';
-      est = montar(ticket); pos = 0;
+      est = montar(ticket); pos = 0; ajustes = 0;
       $('ch-num').textContent = 'Chamado ' + ticket.num;
       $('ch-resumo').textContent = ticket.parceiro + ' · ' + ticket.cliente + (ticket.unidade ? ' · ' + ticket.unidade : '') + ' · ' + ticket.tipo + ' · severidade sugerida ' + ticket.sev;
       $('ch-envio').textContent = msg; $('ch-fecho').hidden = true;
@@ -163,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <li><b>3. Você aprova o início</b><span>Só para evoluções. Correções e dúvidas começam direto, dentro da sustentação contratada.</span></li>
 <li><b>4. Em execução</b><span>Você recebe aviso a cada mudança de etapa, pelo e-mail informado no chamado.</span></li>
 <li><b>5. Em validação</b><span>A entrega fica disponível para você ou para o cliente conferir.</span></li>
-<li><b>6. Você aprova a entrega</b><span>Com o seu aceite, o chamado é fechado. Sem aceite, ele volta para ajuste.</span></li>
+<li><b>6. Você aprova a entrega</b><span>Com o seu aceite, o chamado é fechado. Sem aceite, volta para ajuste: até 2 rodadas por entrega. A partir da 3.ª, ou se o pedido mudar, vira um novo chamado.</span></li>
 <li><b>7. Fecho do mês</b><span>A fatura para o CNPJ do parceiro soma a sustentação fixa e só as entregas aprovadas.</span></li>
 </ol>
 </div></section>
