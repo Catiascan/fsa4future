@@ -16,7 +16,8 @@
     telefoneLabel: '(12) 3351-9958',
     calendly: 'https://calendly.com/catiascan/primeiro-atendimento-gratuito-fsa-future',
     formEndpoint: 'https://formsubmit.co/ajax/catia@fsasolucoes.com.br',        // POST JSON opcional (ex.: Apps Script/Formspree) com cópia para atendimento@
-    consentVersion: '1.0'
+    consentVersion: '1.0',
+    analytics: false /* nenhuma ferramenta de análise em uso: o aviso de cookies não aparece. Pôr true quando loadAnalytics() tiver a ferramenta escolhida. */
   };
   var ROOT = document.documentElement.getAttribute('data-root') || './';
 
@@ -75,6 +76,7 @@
   }
   function initConsent() {
     var box = $('#consent'); if (!box) return;
+    if (!CONFIG.analytics) { box.hidden = true; return; } /* só o necessário: não há nada a consentir */
     if (!consent || consent.versao !== CONFIG.consentVersion) box.hidden = false; else if (consent.analise) loadAnalytics();
     $('#consent-accept').addEventListener('click', function () { saveConsent(true, true); });
     $('#consent-reject').addEventListener('click', function () { saveConsent(false, false); });
