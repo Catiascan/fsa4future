@@ -509,5 +509,6 @@ html.a11y-text-1 main,html.a11y-text-2 main{overflow-x:clip}
 @media (max-width:860px){.footer-ods__list{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}}
 @media (max-width:400px){.footer-ods__list{grid-template-columns:1fr}}
 
-/* 17/10/2026: com a janela do VLibras aberta, a FSiA sai do caminho para não tapar o avatar */
-body:has([vw-plugin-wrapper].active) .fsia{display:none}
+/* 17/10/2026: com a janela do VLibras aberta, a FSiA passa para o lado (no telemóvel esconde-se) para não tapar o avatar */
+body:has([vw].enabled) .fsia{right:340px}
+@media (max-width:860px){body:has([vw].enabled) .fsia{display:none}}
