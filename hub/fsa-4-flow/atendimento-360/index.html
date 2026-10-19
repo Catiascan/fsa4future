@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Atendimento 360 · FSA⁴Flow · FSA⁴Future</title>
-<meta name="description" content="Atendimento 360 da FSA⁴Flow: sete perguntas rápidas sobre a sua operação. No fim você vê onde ela trava e pode enviar o resultado pelo WhatsApp. Nada fica gravado.">
+<meta name="description" content="Atendimento 360 da FSA⁴Flow: sete perguntas rápidas sobre a sua operação. No fim você vê onde ela trava e pode marcar uma conversa com o resultado. Nada fica gravado.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://fsa4future.com.br/hub/fsa-4-flow/atendimento-360/">
 <meta name="theme-color" content="#073B4C">
@@ -12,7 +12,7 @@
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="FSA⁴Future">
 <meta property="og:title" content="Atendimento 360 · FSA⁴Flow · FSA⁴Future">
-<meta property="og:description" content="Atendimento 360 da FSA⁴Flow: sete perguntas rápidas sobre a sua operação. No fim você vê onde ela trava e pode enviar o resultado pelo WhatsApp. Nada fica gravado.">
+<meta property="og:description" content="Atendimento 360 da FSA⁴Flow: sete perguntas rápidas sobre a sua operação. No fim você vê onde ela trava e pode marcar uma conversa com o resultado. Nada fica gravado.">
 <meta property="og:url" content="https://fsa4future.com.br/hub/fsa-4-flow/atendimento-360/">
 <meta property="og:image" content="https://fsa4future.com.br/assets/img/og-1200x630.png">
 <meta property="og:image:width" content="1200">
@@ -20,7 +20,7 @@
 <meta property="og:image:alt" content="FSA⁴Future · Technology &amp; Business Hub · Technology 4 what’s next.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Atendimento 360 · FSA⁴Flow · FSA⁴Future">
-<meta name="twitter:description" content="Atendimento 360 da FSA⁴Flow: sete perguntas rápidas sobre a sua operação. No fim você vê onde ela trava e pode enviar o resultado pelo WhatsApp. Nada fica gravado.">
+<meta name="twitter:description" content="Atendimento 360 da FSA⁴Flow: sete perguntas rápidas sobre a sua operação. No fim você vê onde ela trava e pode marcar uma conversa com o resultado. Nada fica gravado.">
 <meta name="twitter:image" content="https://fsa4future.com.br/assets/img/og-1200x630.png">
 <link rel="icon" href="../../../favicon.ico" sizes="any">
 <link rel="icon" href="../../../assets/logo/favicon.svg" type="image/svg+xml">
@@ -138,11 +138,13 @@
 
 <script>
 (function(){
-  /* Atendimento 360 (FSA⁴Flow). Não grava nada: as respostas só saem se a pessoa enviar a mensagem no WhatsApp.
+  /* Atendimento 360 (FSA⁴Flow). Não grava nada: as respostas só saem se a pessoa marcar a conversa ou enviar a mensagem.
      A pergunta 6 ("Do que você precisa?") entra na mensagem mas não muda a nota: a nota mede a urgência da operação,
      e o que a pessoa precisa é o tipo de ajuda, não o tamanho do problema. */
-  /* O número não aparece na página: só é montado no momento de abrir o WhatsApp. */
-  var WHATS = ['55', '12', '9881', '84301'].join('');
+  /* Canal principal: a Conversa de Entendimento (Calendly), com o resumo nas notas. WhatsApp só para urgência,
+     pelo número da empresa (18/10/2026: o celular da Cátia deixou de estar no site). */
+  var AGENDA = 'https://calendly.com/catiascan/primeiro-atendimento-gratuito-fsa-future';
+  var WHATS = ['55', '12', '3351', '9958'].join('');
   var NOTA = ['q1','q2','q3','q4','q5','q7'];
   var f = document.getElementById('at-f'), btn = document.getElementById('at-ver'), res = document.getElementById('at-res'),
       falta = document.getElementById('at-falta'), pensa = document.getElementById('at-pensa');
@@ -201,13 +203,18 @@
     res.appendChild(el('h2', 'h3 at-nivel', nivel));
     res.appendChild(el('p', '', frase));
     if (obs.length) { var ul = el('ul'); obs.forEach(function(o){ ul.appendChild(el('li', '', o)); }); res.appendChild(ul); }
-    var a = el('a', 'f4-btn f4-btn--accent f4-btn--lg', 'Enviar meu resultado para a FSA pelo WhatsApp');
-    a.id = 'at-whats'; a.target = '_blank'; a.rel = 'noopener';
-    a.href = 'https://wa.me/' + WHATS + '?text=' + encodeURIComponent(resumo);
-    a.setAttribute('data-track', 'atendimento360_whatsapp');
+    var a = el('a', 'f4-btn f4-btn--accent f4-btn--lg', 'Marcar a Conversa de Entendimento (30 min, gratuita)');
+    a.id = 'at-agenda'; a.target = '_blank'; a.rel = 'noopener';
+    a.href = AGENDA + '?a1=' + encodeURIComponent(resumo.slice(0, 1800));
+    a.setAttribute('data-track', 'atendimento360_agenda');
     var d = el('div'); d.appendChild(a); res.appendChild(d);
-    res.appendChild(el('p', 'small at-priv', 'Se o botão não abrir o WhatsApp, toque nele outra vez ou escreva para nós pela página Vamos conversar.'));
-    res.appendChild(el('p', 'small at-priv', 'Nada fica gravado nesta página. Suas respostas só chegam à FSA se você tocar no botão e enviar a mensagem.'));
+    var u = el('p', 'small at-priv', 'É urgente? ');
+    var w = el('a', '', 'Fale com a FSA pelo WhatsApp');
+    w.id = 'at-whats'; w.target = '_blank'; w.rel = 'noopener';
+    w.href = 'https://wa.me/' + WHATS + '?text=' + encodeURIComponent(resumo);
+    w.setAttribute('data-track', 'atendimento360_whatsapp');
+    u.appendChild(w); u.appendChild(document.createTextNode('. Prefere escrever? Use a página Vamos conversar.')); res.appendChild(u);
+    res.appendChild(el('p', 'small at-priv', 'Nada fica gravado nesta página. Suas respostas só chegam à FSA se você marcar a conversa ou enviar a mensagem.'));
     res.hidden = false; res.focus({ preventScroll: true }); res.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   pronto();
